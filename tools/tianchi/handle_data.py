@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 import datetime
-import xlrd
-import xlwt
-import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
+import csv
 
 from collections import Counter
 from mysql import query, query_one, save
@@ -30,34 +25,42 @@ INDEX:
 
 
 def handle_data():
-    for shop_id in xrange(1, 2001):
-        if shop_id % 100 == 0:
-            time.sleep(5)
+    with open('data.csv', 'wb') as csvfile:
+        spamwriter = csv.writer(csvfile)
 
-        time_data = []
-        time_stamp_data = query(
-            sql=u"""SELECT `time_stamp` FROM `base_userview` WHERE `shop_id` = %s LIMIT 0,5""" , list1=(shop_id, ))
-        for time_stamp in time_stamp_data:
-            time_data.append(time_stamp.get('time_stamp').strftime("%Y-%m-%d"))
+        for shop_id in xrange(1, 2001):
+            if shop_id % 100 == 0:
+                time.sleep(5)
 
-        # time_data = sorted(time_data)
+            time_data = []
+            time_stamp_data = query(
+                sql=u"""SELECT `time_stamp` FROM `base_userview` WHERE `shop_id` = %s """ , list1=(shop_id, ))
+            for time_stamp in time_stamp_data:
+                time_data.append(time_stamp.get(
+                    'time_stamp').strftime("%Y-%m-%d"))
 
-        time_data_count_data = dict(Counter(time_data))
-        print time_data_count_data
-        break
+            time_data_count_data = dict(Counter(time_data))
 
-def write_excel(industry_count_data):
-    file = xlwt.Workbook()                # 注意这里的Workbook首字母是大写
-    table = file.add_sheet('sheet_1', cell_overwrite_ok=True)
-    index = 0
-    for k, v in industry_count_data.items():
-        table.write(index, 1, k)
-        table.write(index, 2, v)
-        print 'writing data... <%s, %s>' % (k, v)
-        index += 1
+            time_data_count_data = sorted(
+                time_data_count_data.iteritems(), key=lambda d: d[0])
 
-    # 保存文件
-    file.save('level3_industry_risk_news_count.xls')
+            datetime = []
+            datetime_count = []
+
+            for data in time_data_count_data:
+                if shop_id == 1:
+                    datetime.append(data[0])
+
+                datetime_count.append(data[1])
+
+
+            if shop_id == 1:
+                spamwriter.writerow(datetime)
+                spamwriter.writerow(datetime_count)
+            else:
+                spamwriter.writerow(datetime_count)
+
+            print shop_id
 
 def main():
     handle_data()

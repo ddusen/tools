@@ -11,3 +11,9 @@ MySQL_python == 1.2.5
 
 # xlrd
 xlrd == xlrd
+
+# xlwt
+xlwt == 1.2.0
+
+# xlutils
+xlutils == 2.0.0
