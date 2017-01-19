@@ -1,0 +1,13 @@
+# Django
+django == 1.9
+djangorestframework >= 3.3.0
+djangorestframework-jwt >= 1.7.2
+django-extensions >= 1.5.6
+django-import-export >= 0.2.8
+django-tinymce >= 2.0.0
+
+# MySQL
+MySQL_python == 1.2.5
+
+# xlrd
+xlrd == xlrd
