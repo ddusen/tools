@@ -17,3 +17,6 @@ xlwt == 1.2.0
 
 # xlutils
 xlutils == 2.0.0
+
+# openpyxl
+openpyxl == 2.4.1

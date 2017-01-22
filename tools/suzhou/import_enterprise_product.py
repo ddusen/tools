@@ -10,7 +10,7 @@ from mysql import query, query_one, save
 
 def insert_enterprises():
 
-    workbook = xlrd.open_workbook(r'/home/sdu/tools/suzhou/data.xls')
+    workbook = xlrd.open_workbook(r'/home/sdu/MyProject/tools/tools/suzhou/data.xls')
 
     # get sheel
     sheet1_name = workbook.sheet_names()[0]
@@ -42,16 +42,16 @@ def insert_enterprises():
                 sql=u"""SELECT id FROM `base_area` WHERE `name` = '%s' """ %
                 (area,)).get("id")
 
-        category = item[13]
+        productcategory = item[13]
         try:
-            if save(sql=u"""INSERT INTO `base_category`(`name`) VALUES('%s')""" % (category,)):
-                print "INSERT category <%s> SUCCESS!" % (category, )
+            if save(sql=u"""INSERT INTO `base_productcategory`(`name`) VALUES('%s')""" % (productcategory,)):
+                print "INSERT productcategory <%s> SUCCESS!" % (productcategory, )
 
-            category_id = query_one(
-                sql=u"""SELECT id FROM `base_category` WHERE name = '%s'""" % (category,)).get("id")
+            product_category_id = query_one(
+                sql=u"""SELECT id FROM `base_productcategory` WHERE name = '%s'""" % (productcategory,)).get("id")
         except:
-            category_id = query_one(sql=u"""SELECT id FROM `base_category`
-            WHERE name = '%s'""" % (category,)).get("id")
+            product_category_id = query_one(sql=u"""SELECT id FROM `base_productcategory`
+            WHERE name = '%s'""" % (productcategory,)).get("id")
 
         try:
             enterprise_name = item[0]
@@ -85,9 +85,9 @@ def insert_enterprises():
             manufacture_date = item[18]
             batch_number = item[19]
             sales_volume = item[20]
-            category = category_id
+            productcategory = product_category_id
 
-            if save(sql=u"""INSERT INTO `base_product`(`name`, `brand`, `specification`, `level`, `manufacture_date`,`batch_number`, `sales_volume`, `category_id`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (product_name, brand, specification, level, manufacture_date, batch_number, sales_volume, category,)):
+            if save(sql=u"""INSERT INTO `base_product`(`name`, `brand`, `specification`, `level`, `manufacture_date`,`batch_number`, `sales_volume`, `product_category_id`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (product_name, brand, specification, level, manufacture_date, batch_number, sales_volume, productcategory,)):
                 print "INSERT product <%s> SUCCESS!" % (product_name, )
 
             product_id = query_one(sql=u"""SELECT id FROM `base_product` WHERE name = '%s'""" % (product_name, )).get("id")
