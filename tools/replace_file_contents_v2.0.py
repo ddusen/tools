@@ -40,8 +40,13 @@ def replace_str(file_content, filename):
     # old_str = raw_input('请输入你需要替换的单词或字符:')
     # new_str = raw_input('请输入新的单词或字符:')
 
-    old_str = """// Fields"""
-    new_str = """private static final long serialVersionUID = 1L;"""
+    old_str = """                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                  <thead>
+                    <tr>"""
+    new_str = """                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+                  <thead>
+                    <tr>
+                      <th style="display: none;"></th>"""
 
 
     old_str_count = file_content.count(old_str)

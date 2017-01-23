@@ -24,46 +24,51 @@ INDEX:
 """
 
 
-def handle_data():
-    with open('data.csv', 'wb') as csvfile:
+def get_time_sequence():
+    time_sequence_list = []
+    result = query(
+        sql=u"""SELECT LEFT(time_stamp,10) FROM base_userpay""")
+    for time_stamp in result:
+        time_sequence_list.append(time_stamp.get('LEFT(time_stamp,10)'))
+
+    time_sequence_list = list(set(sorted(time_sequence_list)))
+
+    return time_sequence_list
+
+
+def handle_data(time_sequence_list):
+
+    with open('/home/sdu/MyProject/tools/tools/tianchi/data.csv', 'wb') as csvfile:
         spamwriter = csv.writer(csvfile)
+        index = 0
+        for time_date in time_sequence_list:
+            starttime = datetime.datetime.now()
+            row_data = []
 
-        for shop_id in xrange(1, 2001):
-            if shop_id % 100 == 0:
-                time.sleep(5)
-
-            time_data = []
-            time_stamp_data = query(
-                sql=u"""SELECT `time_stamp` FROM `base_userview` WHERE `shop_id` = %s """ , list1=(shop_id, ))
-            for time_stamp in time_stamp_data:
-                time_data.append(time_stamp.get(
-                    'time_stamp').strftime("%Y-%m-%d"))
-
-            time_data_count_data = dict(Counter(time_data))
-
-            time_data_count_data = sorted(
-                time_data_count_data.iteritems(), key=lambda d: d[0])
-
-            datetime = []
-            datetime_count = []
-
-            for data in time_data_count_data:
-                if shop_id == 1:
-                    datetime.append(data[0])
-
-                datetime_count.append(data[1])
-
-
-            if shop_id == 1:
-                spamwriter.writerow(datetime)
-                spamwriter.writerow(datetime_count)
+            if index == 0:
+                row_data = range(1, 2001)
+                spamwriter.writerow([""] + row_data)
+                index += 1
+                continue
             else:
-                spamwriter.writerow(datetime_count)
+                for shop_id in xrange(1, 2001):
+                    time_sequence_dict = query(
+                        sql=u"""SELECT LEFT(`time_stamp`,10) FROM `base_userpay` WHERE `shop_id` = %s AND `time_stamp` LIKE '%s%%' """ % (shop_id, time_date))
 
-            print shop_id
+                    if not time_sequence_dict:
+                        row_data.append("0")
+                    else:
+                        row_data.append(len(time_sequence_dict))
+
+            endtime = datetime.datetime.now()
+            print "EXECUTE < %s > ROW SUCCESS, EXECUTION TIME < %s > !" % (index, (endtime - starttime).seconds)
+            index += 1
+            spamwriter.writerow([time_date] + row_data)
+
 
 def main():
-    handle_data()
+    time_sequence_list = get_time_sequence()
+    handle_data(time_sequence_list)
 
 
 if __name__ == '__main__':

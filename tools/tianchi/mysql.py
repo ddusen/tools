@@ -17,14 +17,19 @@ class MySQL():
             'tianchi',
             charset='utf8',
             port=3306,
-            cursorclass = self.cursorclass
-            )
+            cursorclass=self.cursorclass
+        )
 
 
 def query(sql, list1=()):
     db = MySQL().open()
     cursor = db.cursor()
-    cursor.execute(sql, list1)
+
+    if list1:
+        cursor.execute(sql, list1)
+    else:
+        cursor.execute(sql)
+
     result = cursor.fetchall()
 
     db.commit()
