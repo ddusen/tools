@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import time
-import datetime
+import datetime as datetime2
 import csv
 
+from datetime import datetime, date, timedelta
 from collections import Counter
 from mysql import query, query_one, save
 
@@ -26,12 +27,14 @@ INDEX:
 
 def get_time_sequence():
     time_sequence_list = []
-    result = query(
-        sql=u"""SELECT LEFT(time_stamp,10) FROM base_userpay""")
-    for time_stamp in result:
-        time_sequence_list.append(time_stamp.get('LEFT(time_stamp,10)'))
 
-    time_sequence_list = list(set(sorted(time_sequence_list)))
+    def date_range(start, stop, step):
+        while start < stop:
+            yield start
+            start += step
+
+    for d in date_range(datetime(2015, 6, 26), datetime(2016, 10, 31), timedelta(hours=24)):
+        time_sequence_list.append(str(d)[0:10])
 
     return time_sequence_list
 
@@ -42,7 +45,7 @@ def handle_data(time_sequence_list):
         spamwriter = csv.writer(csvfile)
         index = 0
         for time_date in time_sequence_list:
-            starttime = datetime.datetime.now()
+            starttime = datetime2.datetime.now()
             row_data = []
 
             if index == 0:
@@ -60,7 +63,7 @@ def handle_data(time_sequence_list):
                     else:
                         row_data.append(len(time_sequence_dict))
 
-            endtime = datetime.datetime.now()
+            endtime = datetime2.datetime.now()
             print "EXECUTE < %s > ROW SUCCESS, EXECUTION TIME < %s > !" % (index, (endtime - starttime).seconds)
             index += 1
             spamwriter.writerow([time_date] + row_data)
