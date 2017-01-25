@@ -33,7 +33,7 @@ def get_time_sequence():
             yield start
             start += step
 
-    for d in date_range(datetime(2015, 6, 26), datetime(2016, 10, 31), timedelta(hours=24)):
+    for d in date_range(datetime(2015, 6, 24), datetime(2016, 11, 1), timedelta(hours=24)):
         time_sequence_list.append(str(d)[0:10])
 
     return time_sequence_list
