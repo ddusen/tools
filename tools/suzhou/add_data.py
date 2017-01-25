@@ -17,6 +17,21 @@ def insert_status():
             print "insert status <%s , %s> successful !" % (index + 1, item)
 
 
+def insert_risk_status():
+    data = [u'待分配', u'待确认', u'已确认',
+            u'待抽样', u'已抽到样', u'未抽到样',
+            u'正在检测', u'完成检测', u'已通知企业',
+            u'待审核', u'已审核', u'整改审核',
+            u'完成整改', u'逾期整改', u'正在整改',
+            u'正在查处', u'完成查处']
+
+    insert_sql = u"""INSERT INTO `risk_status`(`id`, `name`) VALUES(%s, %s)"""
+
+    for index, item in enumerate(data):
+        if save(sql=insert_sql, list1=(index + 1, item)):
+            print "insert risk_status <%s , %s> successful !" % (index + 1, item)
+
+
 def insert_group():
     if save(sql=u"INSERT INTO `base_group` VALUES (15,'质监局',1,NULL)"):
         print "insert group <质监局> successful!"
@@ -127,6 +142,7 @@ def insert_economy():
 
 def main():
     insert_status()
+    insert_risk_status()
     insert_group()
     insert_user()
     insert_bureau_user()
