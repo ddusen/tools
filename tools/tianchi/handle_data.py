@@ -33,7 +33,7 @@ def get_time_sequence():
             yield start
             start += step
 
-    for d in date_range(datetime(2015, 6, 24), datetime(2016, 11, 1), timedelta(hours=24)):
+    for d in date_range(datetime(2015, 6, 25), datetime(2016, 11, 1), timedelta(hours=24)):
         time_sequence_list.append(str(d)[0:10])
 
     return time_sequence_list
@@ -41,7 +41,7 @@ def get_time_sequence():
 
 def handle_data(time_sequence_list):
 
-    with open('/home/sdu/MyProject/tools/tools/tianchi/data.csv', 'wb') as csvfile:
+    with open('/home/sdu/MyProject/tools/tools/tianchi/data2.csv', 'wb') as csvfile:
         spamwriter = csv.writer(csvfile)
         index = 0
         for time_date in time_sequence_list:
