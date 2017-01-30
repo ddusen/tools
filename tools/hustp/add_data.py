@@ -10,7 +10,7 @@ def print_log(item):
     print "INSERT < %s > SUCCESS!" % item
 
 
-def import_data():
+def import_category():
     level_one_list = [u'本科', u'高职', u'研究生', u'中职']
     level_two_one_list = [u'机械', u'电子电气', u'建筑', u'医学', u'艺术/设计', u'外语/计算机/网络',
                           u'管理学', u'法学/经济', u'工学', u'理学', u'文学/哲学/历史/教育', u'农学', u'公共课']
@@ -101,8 +101,33 @@ def import_data():
                 print_log(item)
 
 
+def import_book():
+    for item in xrange(6):
+        id = item + 1
+        name = 'Test_%s' % item
+        number = 'Test_%s' % item
+        subject = 'Test_%s' % item
+        author = 'Test_%s' % item
+        price = item
+        edit_number = 'Test_%s' % item
+        publish_time = 'Test_%s' % item
+        brief_introduction = 'Test_%s' % item
+        series_title = 'Test_%s' % item
+        cover = 'Test_%s' % item
+        directory = 'Test_%s' % item
+        support_resource = True
+        author_introduction = 'Test_%s' % item
+        gradation = 'Test_%s' % item
+        characteristic = 'Test_%s' % item
+        major = item + 1
+
+        if save(sql=u"""INSERT INTO `book`(`id`, `name`, `number`, `subject`, `author`, `price`, `edit_number`, `publish_time`, `brief_introduction`, `series_title`, `cover`, `directory`, `support_resource`, `author_introduction`, `gradation`, `characteristic`, `major_id`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) """, list1=(id, name, number, subject, author, price, edit_number, publish_time, brief_introduction, series_title, cover, directory, support_resource, author_introduction, gradation, characteristic, major,)):
+            print_log(name)
+
+
 def main():
-    import_data()
+    import_category()
+    import_book()
 
 if __name__ == '__main__':
     main()
