@@ -111,7 +111,7 @@ def import_book():
         price = item
         edit_number = 'Test_%s' % item
         publish_time = 'Test_%s' % item
-        brief_introduction = 'Test_%s' % item
+        content = 'Test_%s' % item
         series_title = 'Test_%s' % item
         cover = 'Test_%s' % item
         directory = 'Test_%s' % item
@@ -121,7 +121,7 @@ def import_book():
         characteristic = 'Test_%s' % item
         major = item + 1
 
-        if save(sql=u"""INSERT INTO `book`(`id`, `name`, `number`, `subject`, `author`, `price`, `edit_number`, `publish_time`, `brief_introduction`, `series_title`, `cover`, `directory`, `support_resource`, `author_introduction`, `gradation`, `characteristic`, `major_id`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) """, list1=(id, name, number, subject, author, price, edit_number, publish_time, brief_introduction, series_title, cover, directory, support_resource, author_introduction, gradation, characteristic, major,)):
+        if save(sql=u"""INSERT INTO `book`(`id`, `name`, `number`, `subject`, `author`, `price`, `edit_number`, `publish_time`, `content`, `series_title`, `cover`, `directory`, `support_resource`, `author_introduction`, `gradation`, `characteristic`, `major_id`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) """, list1=(id, name, number, subject, author, price, edit_number, publish_time, content, series_title, cover, directory, support_resource, author_introduction, gradation, characteristic, major,)):
             print_log(name)
 
 
