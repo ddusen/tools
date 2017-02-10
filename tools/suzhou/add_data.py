@@ -84,8 +84,9 @@ def insert_inspection_category():
 
 def insert_inspection_type():
     data = {
-        1: u"抽查类型A",
-        2: u"抽查类型B",
+        1: u"市级监督抽查",
+        2: u"市级专项监督抽查",
+        3: u"市级风险监测",
     }
 
     insert_sql = u"""INSERT INTO `postprocess_inspectiontype`(`id`, `name`) VALUES(%s, %s)"""
