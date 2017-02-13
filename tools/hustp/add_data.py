@@ -135,8 +135,7 @@ def import_category():
                                     u'生物科学'],
                             u'农学': [u'农学',
                                     u'园艺',
-                                    u'园林'],
-                            u'公共课': [u'全部']}
+                                    u'园林']}
 
     level_three_dict_two = {u'机械': [u'机械制造',
                                     u'智能制造/机器人',
@@ -196,8 +195,7 @@ def import_category():
                                     u'生物学',
                                     u'资源勘查'],
                             u'农学': [u'农业',
-                                    u'林业'],
-                            u'公共课': [u'全部']}
+                                    u'林业']}
 
 
     for index, item in enumerate(level_one_list):
@@ -276,8 +274,8 @@ def import_book():
 
 
 def main():
-    # import_category()
-    import_book()
+    import_category()
+    # import_book()
 
 if __name__ == '__main__':
     main()
