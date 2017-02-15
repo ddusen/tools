@@ -20,7 +20,7 @@ class MySQL():
         #         cursorclass=self.cursorclass)
         # returass=self.cursorclass)
         return MySQLdb.connect(
-            '192.168.1.102',
+            '192.168.1.166',
             'root',
             '123456',
             'postprocess',
@@ -61,6 +61,7 @@ def save(sql, list1=()):
         db.commit()
         return result
     except Exception, e:
+        print e
         db.rollback()
         return None
     db.close()

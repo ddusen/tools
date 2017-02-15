@@ -253,7 +253,7 @@ def import_category():
 
 
 def import_book():
-    for item in xrange(111):
+    for item in xrange(30):
         name = 'Test__%s' % item
         number = 'Test__%s' % item
         author = 'Test__%s' % item
@@ -267,15 +267,14 @@ def import_book():
         support_resource = random.choice([0, 1])
         author_introduction = 'Test__%s' % item
         characteristic = 'Test__%s' % item
-        category_id = random.randint(1,187)
 
-        if save(sql=u"""INSERT INTO `book`(`name`, `number`, `author`, `price`, `edit_number`, `publish_time`, `content`, `series_title`, `cover`, `directory`, `support_resource`, `author_introduction`, `characteristic`, `category_id`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) """, list1=(name, number, author, price, edit_number, publish_time, content, series_title, cover, directory, support_resource, author_introduction, characteristic, category_id, )):
+        if save(sql=u"""INSERT INTO `book`(`name`, `number`, `author`, `price`, `edit_number`, `publish_time`, `content`, `series_title`, `cover`, `directory`, `support_resource`, `author_introduction`, `characteristic`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) """, list1=(name, number, author, price, edit_number, publish_time, content, series_title, cover, directory, support_resource, author_introduction, characteristic,)):
             print_log(name)
 
 
 def main():
     import_category()
-    # import_book()
+    import_book()
 
 if __name__ == '__main__':
     main()
