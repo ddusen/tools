@@ -86,15 +86,17 @@ def insert_group():
     if save(sql=u"INSERT INTO `base_group`(`name`, `level`, `parent_id`)  VALUES ('吴江质监',3, %s)" % parent_id):
         print "insert group <吴江质监> successful!"
 
-
 def insert_user():
-    if save(sql=u"INSERT INTO `base_user` VALUES (5,'szzj_1','szzj_1',NULL,1,1,'2016-12-13 12:02:46',16)"):
+    group_id = query_one(sql=u"""SELECT id FROM base_group WHERE name = '苏州质量技术监督局'""").get('id')
+    if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('szzj_1','szzj_1',now(),1,1,now(),%s)" % group_id):
         print "insert user <szzj_1> successful!"
 
-    if save(sql=u"INSERT INTO `base_user` VALUES (6,'institution','institution','2016-12-13 12:20:38',1,1,'2016-12-13 12:20:40',18)"):
+    group_id = query_one(sql=u"""SELECT id FROM base_group WHERE name = '苏州市质量技术监督综合检验检测中心'""").get('id')
+    if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('institution','institution',now(),1,1,now(),%s)" %group_id):
         print "insert user <institution> successful!"
 
-    if save(sql=u"INSERT INTO `base_user` VALUES (7,'sz_wjzj_1','sz_wjzj_1','2016-12-13 12:21:34',1,1,'2016-12-13 12:21:35',19)"):
+    group_id = query_one(sql=u"""SELECT id FROM base_group WHERE name = '吴江质监'""").get('id')
+    if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('sz_wjzj_1','sz_wjzj_1',now(),1,1,now(),%s)" % group_id):
         print "insert user <sz_wjzj_1> successful!"
 
 
