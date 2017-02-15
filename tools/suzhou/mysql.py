@@ -61,7 +61,6 @@ def save(sql, list1=()):
         db.commit()
         return result
     except Exception, e:
-        print e
         db.rollback()
         return None
     db.close()
