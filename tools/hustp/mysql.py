@@ -11,7 +11,7 @@ class MySQL():
 
     def open(self):
         return MySQLdb.connect(
-            '127.0.0.1',
+            '192.168.1.166',
             'root',
             '123456',
             'hustp',

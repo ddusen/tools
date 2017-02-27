@@ -40,12 +40,8 @@ def replace_str(file_content, filename):
     # old_str = raw_input('请输入你需要替换的单词或字符:')
     # new_str = raw_input('请输入新的单词或字符:')
 
-    old_str = """<td>
-                        <a th:href="@{/history}" class="btn btn-outline btn-link btn-xs"><i class="fa fa-history"></i></a>
-                      </td>"""
-    new_str = """<td>
-                      <a th:href="@{/history/{taskId}/(taskId=${taskStatus.postprocessTask.id})}" class="btn btn-outline btn-link btn-xs"><i class="fa fa-history"></i></a>
-                    </td>"""
+    old_str = '''PostprocessChildtask postprocessTask'''
+    new_str = '''PostprocessChildtask postprocessChildtask'''
 
 
     old_str_count = file_content.count(old_str)

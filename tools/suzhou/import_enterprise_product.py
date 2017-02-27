@@ -99,7 +99,8 @@ def insert_enterprises():
 
 
 def main():
-    insert_enterprises()
+    # insert_enterprises()
+    pass
 
 
 if __name__ == '__main__':
