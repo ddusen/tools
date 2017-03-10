@@ -6,7 +6,7 @@ sys.path.append(root_mod)
 
 import re
 
-from datetime import datetime
+import datetime
 from lxml import etree, html
 
 from mysql import query, query_one, save
@@ -29,16 +29,18 @@ def get_data():
 
 
 def handle_data(source_data):
-    data = eval(source_data).get('data')
-    messages = data.get('messages')
+    source_data = source_data.replace('false', 'False')
+    source_data = source_data.replace('true', 'True')
+    data = eval(source_data)
+    messages = data.get('comments')
     for message in messages:
-        username = (message.get('username').decode('unicode-escape')).encode('utf-8')
-        user_star = int(message.get('score'))
-        game_version = message.get('version_name')
-        content = (message.get('content').decode('unicode-escape')).encode('utf-8')
-        create_at = message.get('create_time')
-        likes = int(message.get('likes'))
-        comment_number = int(message.get('replies'))
+        username = message.get('nickname')
+        user_star = message.get('score')
+        game_version = message.get('versionName')
+        content = message.get('commentValue')
+        create_at = datetime.datetime.fromtimestamp(int(message.get('updateTime')) / 1e3)
+        likes = message.get('likes')
+        comment_number = message.get('replies')
         model = message.get('model')
         weight = message.get('weight')
         image_url = message.get('image_url')
