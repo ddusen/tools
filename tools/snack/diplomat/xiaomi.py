@@ -44,8 +44,9 @@ def handle_data(source_data):
         model = message.get('model')
         weight = message.get('weight')
         image_url = message.get('image_url')
+        channel = 'xiaomi';
 
-        if save(sql=u'''INSERT INTO `base_comment`(`username`, `user_star`, `game_version`, `content`, `create_at`, `likes`, `comment_number`, `model`, `weight`, `image_url`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ''', list1=(username, user_star, game_version, content, create_at, likes, comment_number, model, weight, image_url)):
+        if save(sql=u'''INSERT INTO `base_comment`(`username`, `user_star`, `game_version`, `content`, `create_at`, `likes`, `comment_number`, `model`, `weight`, `image_url`, `channel`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s) ''', list1=(username, user_star, game_version, content, create_at, likes, comment_number, model, weight, image_url, channel)):
             print "INSERT INTO < %s > SUCCESSFUL!" % username
 
 
