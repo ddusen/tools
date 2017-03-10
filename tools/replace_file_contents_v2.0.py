@@ -40,8 +40,8 @@ def replace_str(file_content, filename):
     # old_str = raw_input('请输入你需要替换的单词或字符:')
     # new_str = raw_input('请输入新的单词或字符:')
 
-    old_str = '''检测类型'''
-    new_str = '''检验类别'''
+    old_str = '''<th>抽查类型</th>'''
+    new_str = '''<th>检验类别</th>'''
 
 
     old_str_count = file_content.count(old_str)

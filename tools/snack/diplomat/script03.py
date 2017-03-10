@@ -23,7 +23,7 @@ from tools.crawler.utils.crawler.process import (extract_content_by_xpath,
 def get_data():
     page = 0
     while(True):
-        url = 'http://comment.wandoujia.com/comment/comment!getCommentSummary.action?pageNum=%s&pageSize=15&target=com.tencent.tmgp.sgame' % page
+        url = 'http://market.xiaomi.com/apm/comment/list/108048?channel=market_100_1_android&clientId=56df5d2d2eafff6a7366aa331b99ff14&co=CN&densityScaleFactor=2.0&imei=70b45cdc762b8a01062cd7e18d92d81b&la=zh&marketVersion=146&model=XT1060&os=1&page=%s&resolution=720*1184&sdk=22&session=2jmj7l5rSw0yVb_v' % page
         page += 1
         handle_data(get_response(url).text)
 

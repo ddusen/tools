@@ -23,7 +23,7 @@ from tools.crawler.utils.crawler.process import (extract_content_by_xpath,
 def get_data():
     page = 0
     while(True):
-        url = 'http://comment.wandoujia.com/comment/comment!getCommentSummary.action?pageNum=%s&pageSize=15&target=com.tencent.tmgp.sgame' % page
+        url = 'http://comment.mobilem.360.cn/comment/getComments?baike=3073428&level=0&start=%s&count=10&topLike=1&os=22&vc=300070026&v=7.0.26&md=XT1060&sn=4.391372128381046&cpu=msm8960dt&ca1=armeabi-v7a&ca2=armeabi&m=70b45cdc762b8a01062cd7e18d92d81b&m2=05e078182db0ed99fac82e9df42df316&ch=8294092&ppi=720_1184&startCount=1&re=1200&tid=0&cpc=1&snt=-1&nt=1&gender=-1&age=-1&theme=2&br=motorola&s_3pk=1&webp=1' % page
         page += 1
         handle_data(get_response(url).text)
 

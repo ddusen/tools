@@ -36,7 +36,7 @@ institution_name_list = [u'江苏省质量技术监督珠宝首饰产品质量�
 
 
 def insert_status():
-    data = [u'待确认',u'待抽样', u'待检测', u'待上报']
+    data = [u'待确认', u'待抽样', u'待检测', u'待上报', u'已确认', u'已抽样', u'已检测', u'已上报']
 
     insert_sql = u"""INSERT INTO `postprocess_status`(`id`, `name`) VALUES(%s, %s)"""
 
@@ -46,7 +46,7 @@ def insert_status():
 
 
 def insert_risk_status():
-    data = [u'待确认',u'待抽样', u'待检测', u'待上报']
+    data = [u'待确认', u'待抽样', u'待检测', u'待上报', u'已确认', u'已抽样', u'已检测', u'已上报']
     # data = [u'待分配', u'待确认', u'已确认',
     #         u'待抽样', u'已抽到样', u'未抽到样',
     #         u'正在检测', u'完成检测', u'已通知企业',
@@ -61,12 +61,12 @@ def insert_risk_status():
             print "insert risk_status <%s , %s> successful !" % (index + 1, item)
 
 
-
 def insert_group():
     if save(sql=u"INSERT INTO `base_group`(`name`, `level`, `parent_id`) VALUES ('质监局',1,NULL)"):
         print "insert group <质监局> successful!"
 
-    parent_id = query_one(sql=u"""SELECT id FROM `base_group` WHERE name = '质监局' """).get('id')
+    parent_id = query_one(
+        sql=u"""SELECT id FROM `base_group` WHERE name = '质监局' """).get('id')
     if save(sql=u"INSERT INTO `base_group`(`name`, `level`, `parent_id`)  VALUES ('苏州质量技术监督局', 2, %s)" % parent_id):
         print "insert group <苏州质量技术监督局> successful!"
 
@@ -74,31 +74,38 @@ def insert_group():
         print "insert group <检测机构> successful!"
 
     for index, item in enumerate(institution_name_list):
-        parent_id = query_one(sql=u"""SELECT id FROM `base_group` WHERE name = '检测机构' """).get('id')
+        parent_id = query_one(
+            sql=u"""SELECT id FROM `base_group` WHERE name = '检测机构' """).get('id')
         if save(sql=u"INSERT INTO `base_group`(`name`, `level`, `parent_id`)  VALUES('%s', 2, %s)" % (item, parent_id)):
             print "insert group <%s> successful!" % item
 
-    parent_id = query_one(sql=u"""SELECT id FROM `base_group` WHERE name = '苏州质量技术监督局' """).get('id')
+    parent_id = query_one(
+        sql=u"""SELECT id FROM `base_group` WHERE name = '苏州质量技术监督局' """).get('id')
     if save(sql=u"INSERT INTO `base_group`(`name`, `level`, `parent_id`)  VALUES ('吴江质监',3, %s)" % parent_id):
         print "insert group <吴江质监> successful!"
 
+
 def insert_user():
-    group_id = query_one(sql=u"""SELECT id FROM base_group WHERE name = '苏州质量技术监督局'""").get('id')
+    group_id = query_one(
+        sql=u"""SELECT id FROM base_group WHERE name = '苏州质量技术监督局'""").get('id')
     if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('szzj_1','szzj_1',now(),1,1,now(),%s)" % group_id):
         print "insert user <szzj_1> successful!"
 
-    group_id = query_one(sql=u"""SELECT id FROM base_group WHERE name = '苏州市质量技术监督综合检验检测中心'""").get('id')
-    if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('institution','institution',now(),1,1,now(),%s)" %group_id):
+    group_id = query_one(
+        sql=u"""SELECT id FROM base_group WHERE name = '苏州市质量技术监督综合检验检测中心'""").get('id')
+    if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('institution','institution',now(),1,1,now(),%s)" % group_id):
         print "insert user <institution> successful!"
 
-    group_id = query_one(sql=u"""SELECT id FROM base_group WHERE name = '吴江质监'""").get('id')
+    group_id = query_one(
+        sql=u"""SELECT id FROM base_group WHERE name = '吴江质监'""").get('id')
     if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('sz_wjzj_1','sz_wjzj_1',now(),1,1,now(),%s)" % group_id):
         print "insert user <sz_wjzj_1> successful!"
 
 
 def insert_institution_user():
     for index, item in enumerate(institution_name_list):
-        group_id = query_one(sql=u"""SELECT id FROM `base_group` WHERE name = '%s' """ % item).get('id')
+        group_id = query_one(
+            sql=u"""SELECT id FROM `base_group` WHERE name = '%s' """ % item).get('id')
         if save(sql=u"INSERT INTO `base_institution`(`name`, `group_id`) VALUES ('%s', %s)" % (item, group_id)):
             print "insert institution < %s > successful !" % item
 
@@ -106,7 +113,7 @@ def insert_institution_user():
 def insert_inspection_type():
     data = {
         1: u"市级监督抽查",
-        2: u"市级专项监督抽查",
+        2: u"市级定期监督检验",
         3: u"市级市场监督抽查",
         4: u"市级专项监督抽查",
     }
