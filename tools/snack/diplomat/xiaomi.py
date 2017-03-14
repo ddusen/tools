@@ -25,9 +25,13 @@ def get_data():
     page = 0
     while(True):
         url = 'http://market.xiaomi.com/apm/comment/list/108048?channel=market_100_1_android&clientId=56df5d2d2eafff6a7366aa331b99ff14&co=CN&densityScaleFactor=2.0&imei=70b45cdc762b8a01062cd7e18d92d81b&la=zh&marketVersion=146&model=XT1060&os=1&page=%s&resolution=720*1184&sdk=22&session=2jmj7l5rSw0yVb_v' % page
+        header = {
+            'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.76 Mobile Safari/537.36',
+        }
+        handle_data(get_response(url, headers=header).text)
+        time.sleep(3)
         page += 1
-        time.sleep(5)
-        handle_data(get_response(url).text)
+        print page
 
 
 def handle_data(source_data):
@@ -37,7 +41,7 @@ def handle_data(source_data):
     messages = data.get('comments')
     for message in messages:
         username = message.get('nickname')
-        user_star = message.get('score')
+        user_star = message.get('pointValue')
         game_version = message.get('versionName')
         content = message.get('commentValue')
         create_at = datetime.datetime.fromtimestamp(int(message.get('updateTime')) / 1e3)
