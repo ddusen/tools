@@ -29,7 +29,6 @@ def get_data():
             'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.76 Mobile Safari/537.36',
         }
         handle_data(get_response(url, headers=header).text)
-        break;
         time.sleep(3)
         page += 10
         print page
@@ -39,7 +38,7 @@ def handle_data(source_data):
     data = eval(source_data)
     messages = data.get('data')
     for message in messages:
-        username = (message.get('user_name').decode('unicode-escape')).encode('utf-8')
+        username = message.get('reserved3').get('machine') + '机型用户'
         user_star = 0
         game_version = message.get('reserved3').get('version')
         content = (message.get('content').decode('unicode-escape')).encode('utf-8')
