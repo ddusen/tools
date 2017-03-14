@@ -40,7 +40,7 @@ def handle_data(source_data):
     messages = eval(source_data).get('comments')
     for message in messages:
         username = message.get('authorName')
-        user_star = 5 if message.get('enjoy') == 'True' else 0
+        user_star = 5 if message.get('enjoy') == 'True' else 1
         game_version = ""
         content = message.get('content')
         create_at = message.get('date')
