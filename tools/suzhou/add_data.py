@@ -112,10 +112,10 @@ def insert_institution_user():
 
 def insert_inspection_type():
     data = {
-        1: u"市级监督抽查",
+        1: u"市级专项监督抽查",
         2: u"市级定期监督检验",
         3: u"市级市场监督抽查",
-        4: u"市级专项监督抽查",
+        4: u"市级监督抽查",
     }
 
     insert_sql = u"""INSERT INTO `postprocess_inspectiontype`(`id`, `name`) VALUES(%s, %s)"""
