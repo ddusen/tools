@@ -28,8 +28,7 @@ def read_xls(xls_path):
 
     return data_row
 
-
-def main():
+def improve_one():
     xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/苏州电线电缆许可证汇总168批.xls'
     data_row = read_xls(xls_path)
 
@@ -39,6 +38,19 @@ def main():
             if save(sql=u'''UPDATE base_enterprise SET is_not_license = 0 WHERE name = %s ''', list1=(enterprise, )):
                 print "UPDATE < %s > SUCCESSFUL!" % enterprise
 
+def improve_two():
+    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/许可证信息.xls'
+    data_row = read_xls(xls_path)
+
+    for index, item in enumerate(data_row):
+        if item[1] != u'':
+            enterprise = item[0]
+            organization_code = item[1]
+            if save(sql=u'''UPDATE base_enterprise SET organization_code = %s WHERE name = %s ''', list1=(organization_code, enterprise)):
+                print "UPDATE < %s > SUCCESSFUL!" % enterprise
+
+def main():
+    improve_two()
 
 if __name__ == '__main__':
     main()
