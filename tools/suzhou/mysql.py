@@ -20,7 +20,7 @@ class MySQL():
         #         cursorclass=self.cursorclass)
         # returass=self.cursorclass)
         return MySQLdb.connect(
-            '192.168.1.166',
+            '192.168.1.173',
             'root',
             '123456',
             'postprocess',

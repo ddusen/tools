@@ -50,6 +50,7 @@ def improve_two():
                 print "UPDATE < %s > SUCCESSFUL!" % enterprise
 
 def main():
+    improve_one()
     improve_two()
 
 if __name__ == '__main__':
