@@ -128,13 +128,22 @@ def level_four():
             for k in level_three_tuple:
                 code_three = k.get('code')
                 id_three = k.get('id')
-                html_data = extract_item_by_re(get_response(url=request_url_four % (code_one, str(code_two)[2:4:1], code_three), encoding='gb2312', headers=header).text,
-                                               r"<tr class='towntr'><td><a href='../(........)\.html'>.*?</a></td><td><a href='../........\.html'>(.*?)</a></td></tr>")
-                if html_data == []:
-                    html_data = extract_item_by_re(get_response(url=request_url_four % (
-                        code_one, str(code_two)[2:4:1], code_three), encoding='gb2312', headers=header).text, r"<tr class='villagetr'><td>(.*?)</td><td>(.*?)</td>")
 
-                handle_data_two(data=html_data, level=4, parent_id=id_three)
+                def excute():
+                    try:
+                        html_data = extract_item_by_re(get_response(url=request_url_four % (code_one, str(code_two)[2:4:1], code_three), encoding='gb2312', headers=header).text,
+                                                   r"<tr class='towntr'><td><a href='../(........)\.html'>.*?</a></td><td><a href='../........\.html'>(.*?)</a></td></tr>")
+                        if html_data == []:
+                            html_data = extract_item_by_re(get_response(url=request_url_four % (
+                                code_one, str(code_two)[2:4:1], code_three), encoding='gb2312', headers=header).text, r"<tr class='villagetr'><td>(.*?)</td><td>(.*?)</td>")
+                    except Exception as e:
+                        print e
+                        time.sleep(3)
+                        excute()
+
+                    return html_data
+
+                handle_data_two(data=excute(), level=4, parent_id=id_three)
                 time.sleep(1)
 
     return True
@@ -165,8 +174,18 @@ def level_five():
                 for x in level_four_tuple:
                     code_four = x.get('code')
                     id_four = x.get('id')
-                    html_data = extract_item_by_re(get_response(url=request_url_five % (code_one,  str(code_two)[2:4:1],  str(code_three)[4:6:1], code_four), encoding='gb2312', headers=header).text, r"<tr class='villagetr'><td>(.*?)</td><td>(.*?)</td>")
-                    handle_data_two(data=html_data, level=5, parent_id=id_four)
+
+                    def excute():
+                        try:
+                            html_data = extract_item_by_re(get_response(url=request_url_five % (code_one,  str(code_two)[2:4:1],  str(code_three)[4:6:1], code_four), encoding='gb2312', headers=header).text, r"<tr class='villagetr'><td>(.*?)</td><td>(.*?)</td>")
+                        except Exception as e:
+                            print e
+                            time.sleep(3)
+                            excute()
+
+                        return html_data
+                        
+                        handle_data_two(data=excute(), level=5, parent_id=id_four)
                     time.sleep(1)
 
     return True
