@@ -10,24 +10,23 @@ class MySQL():
         self.cursorclass = cursorclass
 
     def open(self):
-        # return MySQLdb.connect(
-        #         '192.168.1.205',
-        #         'shendu',
-        #         'P@55word',
-        #         'crawler',
-        #         charset='utf8',
-        #         port=13306,
-        #         cursorclass=self.cursorclass)
-        # returass=self.cursorclass)
         return MySQLdb.connect(
-            '192.168.1.170',
-            'root',
-            '123456',
-            'postprocess',
-            charset='utf8',
-            port=3306,
-            cursorclass = self.cursorclass
-            )
+                '192.168.1.205',
+                'shendu',
+                'P@55word',
+                'yqj2',
+                charset='utf8',
+                port=13306,
+                cursorclass=self.cursorclass)
+        # return MySQLdb.connect(
+        #     '127.0.0.1',
+        #     'root',
+        #     '123456',
+        #     'test',
+        #     charset='utf8',
+        #     port=3306,
+        #     cursorclass = self.cursorclass
+        #     )
 
 
 def query(sql, list1=()):
@@ -61,7 +60,6 @@ def save(sql, list1=()):
         db.commit()
         return result
     except Exception, e:
-        print e
         db.rollback()
         return None
     db.close()
