@@ -24,7 +24,7 @@ def read_xls(xls_path):
     print 'sheetName = %s , rownum = %s, colnum = %s' % (sheetName, rownum, colnum)
 
     data_row = []
-    for i in xrange(1, rownum):
+    for i in xrange(0, rownum):
         data_row.append(sheet1.row_values(i))
 
     return data_row
@@ -34,7 +34,7 @@ def validate_code():
     if query(sql=u'SELECT * FROM base_product WHERE code=%s', list1=(code,)) == ():
         return code
     else:
-        validate_code(code)
+        validate_code()
 
 def insert_data():
     xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/industry.xls'
