@@ -36,10 +36,11 @@ def insert_data():
     for index, item in enumerate(data_row):
         product = item[0]
         code = str(item[2]).split(".")[0]
-        code = None if code == "" else code
+        code = "-" if code == "" else code
 
-        if save(sql=u'INSERT INTO base_licenseproduct(name, code, status) VALUES(%s, %s, 1)', list1=(product, code)):
-            print "INSERT LICENSE PRODUCT < %s > SUCCESS !" % product
+        if query(sql=u'SELECT COUNT(*) "count" FROM base_licenseproduct WHERE name = %s AND code = %s ', list1=(product, code))[0].get('count') == 0 :
+            if save(sql=u'INSERT INTO base_licenseproduct(name, code, status) VALUES(%s, %s, 1)', list1=(product, code)):
+                print "INSERT LICENSE PRODUCT < %s > SUCCESS !" % product
 
                 
 def main():
