@@ -91,6 +91,11 @@ def insert_user():
         print "insert user <szzj_1> successful!"
 
     group_id = query_one(
+        sql=u"""SELECT id FROM base_group WHERE name = '苏州质量技术监督局'""").get('id')
+    if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('szzj_news','szzj_news',now(),1,1,now(),%s)" % group_id):
+        print "insert user <szzj_news> successful!"
+
+    group_id = query_one(
         sql=u"""SELECT id FROM base_group WHERE name = '苏州市质量技术监督综合检验检测中心'""").get('id')
     if save(sql=u"INSERT INTO `base_user`(`username`, `password`, `last_login`, `is_superuser`, `is_active`, `date_joined`, `group_id`) VALUES ('institution','institution',now(),1,1,now(),%s)" % group_id):
         print "insert user <institution> successful!"
@@ -105,10 +110,9 @@ def insert_institution_user():
     for index, item in enumerate(institution_name_list):
         group_id = query_one(
             sql=u"""SELECT id FROM `base_group` WHERE name = '%s' """ % item).get('id')
-        if save(sql=u"INSERT INTO `base_institution`(`name`, `group_id`) VALUES ('%s', %s)" % (item, group_id)):
+        if save(sql=u"INSERT INTO `base_institution`(`name`, `code`, `contact`, `address`, `post`, `phone`, `fax`,`group_id`) VALUES ('%s','—','—','—','—','—','—',%s)" % (item, group_id)):
             print "insert institution < %s > successful !" % item
-
-
+ 
 def insert_inspection_type():
     data = {
         1: u"市级专项监督抽查",
