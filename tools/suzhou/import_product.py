@@ -48,6 +48,9 @@ def insert_data():
         level_one_obj = query(sql=u'SELECT * FROM base_product WHERE level=1 AND name=%s', list1=(re.findall(r'(.*?)\(.*?\)', level_one)[0],))
         if level_one_obj == ():
             name = re.findall(r'(.*?)\(.*?\)', level_one)[0]
+            if name == "":
+                continue
+
             code = re.findall(r'.*?\((.*?)\)', level_one)[0]
             if save(sql=u'INSERT INTO base_product(name, code, level, status) VALUES(%s, %s, 1, 1)', list1=(name, code, )):
                 print "INSERT < %s > CODE{ %s } SUCCESS!" % (name, code)
@@ -58,6 +61,9 @@ def insert_data():
             level_two_obj = query(sql=u'SELECT * FROM base_product WHERE level=2 AND name=%s', list1=(re.findall(r'(.*?)\(.*?\)', level_two)[0],))
             if level_two_obj == ():
                 name = re.findall(r'(.*?)\(.*?\)', level_two)[0]
+                if name == "":
+                    continue
+
                 code = re.findall(r'.*?\((.*?)\)', level_two)[0]
                 parent_id = level_one_obj[0].get('id')
                 if save(sql=u'INSERT INTO base_product(name, code, level, status, parent_id) VALUES(%s, %s, 2, 1, %s)', list1=(name, code, parent_id, )):
@@ -69,6 +75,9 @@ def insert_data():
                 level_three_obj = query(sql=u'SELECT * FROM base_product WHERE level=3 AND name=%s', list1=(re.findall(r'(.*?)\(.*?\)', level_three)[0],))
                 if level_three_obj == ():
                     name = re.findall(r'(.*?)\(.*?\)', level_three)[0]
+                    if name == "":
+                        continue
+
                     code = re.findall(r'.*?\((.*?)\)', level_three)[0]
                     parent_id = level_two_obj[0].get('id')
                     if save(sql=u'INSERT INTO base_product(name, code, level, status, parent_id) VALUES(%s, %s, 3, 1, %s)', list1=(name, code, parent_id, )):
@@ -80,6 +89,9 @@ def insert_data():
                     level_four_obj = query(sql=u'SELECT * FROM base_product WHERE level=4 AND name=%s', list1=(re.findall(r'(.*?)\(.*?\)', level_four)[0],))
                     if level_four_obj == ():
                         name = re.findall(r'(.*?)\(.*?\)', level_four)[0]
+                        if name == "":
+                            continue
+
                         code = re.findall(r'.*?\((.*?)\)', level_four)[0]
                         parent_id = level_three_obj[0].get('id')
                         if save(sql=u'INSERT INTO base_product(name, code, level, status, parent_id) VALUES(%s, %s, 4, 1, %s)', list1=(name, code, parent_id, )):

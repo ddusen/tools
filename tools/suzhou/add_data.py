@@ -119,6 +119,7 @@ def insert_inspection_type():
         2: u"市级定期监督检验",
         3: u"市级市场监督抽查",
         4: u"市级监督抽查",
+        5: u"市级风险监测",
     }
 
     insert_sql = u"""INSERT INTO `postprocess_inspectiontype`(`id`, `name`) VALUES(%s, %s)"""
