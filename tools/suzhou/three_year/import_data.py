@@ -72,7 +72,6 @@ def save_sampling(item, guid, check_year):
         return save_sampling(item, guid, check_year)
 
 def query_samplingproduct(name):
-    print name
     samplingproduct = query(sql=u'''SELECT id FROM base_samplingproduct WHERE name=%s''', list1=(name, ))
     if len(samplingproduct) != 0:
         return samplingproduct[0].get('id')
