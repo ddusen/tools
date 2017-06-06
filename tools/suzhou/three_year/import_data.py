@@ -50,12 +50,12 @@ def save_sampling(item, guid, check_year):
     check_test_based = u'—'
     check_year = check_year
     check_quarterly = u'—'
-    check_type = u'市级监督抽查'
+    check_type = item[14]
     check_result = item[15]
     check_daterange = check_year
     check_agencies = item[18]
     check_content = u'—'
-    check_level = u'市'
+    check_level = item[19]
     prev_year_sales = u'—'
     failed_item1 = u'—'
     failed_item2 = u'—'
@@ -138,7 +138,23 @@ def save_samplingproductenterprise(item, check_year):
         else:
             return save(sql=u'''INSERT INTO `base_samplingproductenterprise`(`enterprise_id`, `sampling_id`, `sampling_product_id`) VALUES(%s, %s, %s)''', list1=(enterprise_id, sampling_id, sampling_product_id, ))
 
-def insert_data_2015():
+def insert_data_2015_country():
+    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2015国抽苏州.xls'
+    data_row = read_xls(xls_path)
+
+    for index, item in enumerate(data_row):
+        if not save_samplingproductenterprise(item, u'2015'):
+            continue
+
+def insert_data_2015_province():
+    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2015省抽苏州.xls'
+    data_row = read_xls(xls_path)
+
+    for index, item in enumerate(data_row):
+        if not save_samplingproductenterprise(item, u'2015'):
+            continue
+
+def insert_data_2015_city():
     xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2015市抽苏州.xls'
     data_row = read_xls(xls_path)
 
@@ -146,7 +162,23 @@ def insert_data_2015():
         if not save_samplingproductenterprise(item, u'2015'):
             continue
 
-def insert_data_2016():
+def insert_data_2016_country():
+    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2016国抽苏州.xls'
+    data_row = read_xls(xls_path)
+
+    for index, item in enumerate(data_row):
+        if not save_samplingproductenterprise(item, u'2016'):
+            continue
+
+def insert_data_2016_province():
+    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2016省抽苏州.xls'
+    data_row = read_xls(xls_path)
+
+    for index, item in enumerate(data_row):
+        if not save_samplingproductenterprise(item, u'2016'):
+            continue
+
+def insert_data_2016_city():
     xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2016市抽苏州.xls'
     data_row = read_xls(xls_path)
 
@@ -156,8 +188,12 @@ def insert_data_2016():
 
 
 def main():
-    insert_data_2015()
-    insert_data_2016()
-
+    insert_data_2015_country()
+    insert_data_2015_province()
+    insert_data_2015_city()
+    insert_data_2016_country()
+    insert_data_2016_province()
+    insert_data_2016_city()
+    
 if __name__ == '__main__':
     main()
