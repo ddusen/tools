@@ -11,12 +11,12 @@ class MySQL():
 
     def open(self):
         return MySQLdb.connect(
-                '192.168.1.205',
-                'shendu',
-                'P@55word',
-                'yqj2',
+                'localhost',
+                'root',
+                '123456',
+                'postprocess',
                 charset='utf8',
-                port=13306,
+                port=3306,
                 cursorclass=self.cursorclass)
         # return MySQLdb.connect(
         #     '127.0.0.1',
@@ -60,7 +60,6 @@ def save(sql, list1=()):
         db.commit()
         return result
     except Exception, e:
-        print e
         db.rollback()
         return None
     db.close()
