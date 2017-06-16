@@ -10,41 +10,46 @@ def handle_data():
     level_one_data = query(sql=u"SELECT * FROM industry WHERE level = 1 ORDER BY id DESC")
     for level_one in level_one_data:
         level_one_name = level_one.get("name")
+        level_one_code = level_one.get("code")
         level_one_id = level_one.get("id")
 
         level_two_data = query(sql=u"SELECT * FROM industry WHERE parent_id = %s", list1=(level_one_id, ))
         for level_two in level_two_data:
             level_two_name = level_two.get("name")
+            level_two_code = level_two.get("code")
             level_two_id = level_two.get("id")
 
             level_three_data = query(sql=u"SELECT * FROM industry WHERE parent_id = %s", list1=(level_two_id, ))
             
             if level_three_data == ():
-                data.append((level_one_name, level_two_name, "", "", ""))
+                data.append((u"%s(%s)" % (level_one_name, level_one_code), u"%s(%s)" % (level_two_name, level_two_code), "", "", ""))
             else:
                 for level_three in level_three_data:
                     level_three_name = level_three.get("name")
+                    level_three_code = level_three.get("code")
                     level_three_id = level_three.get("id")
 
                     level_four_data = query(sql=u"SELECT * FROM industry WHERE parent_id = %s", list1=(level_three_id, ))
                     
                     if level_four_data == ():
-                        data.append((level_one_name, level_two_name, level_three_name, "", ""))
+                        data.append((u"%s(%s)" % (level_one_name, level_one_code), u"%s(%s)" % (level_two_name, level_two_code), u"%s(%s)" % (level_three_name, level_three_code), "", ""))
                     else:
                         for level_four in level_four_data:
                             level_four_name = level_four.get("name")
+                            level_four_code = level_four.get("code")
                             level_four_id = level_four.get("id")
 
                             level_five_data = query(sql=u"SELECT * FROM industry WHERE parent_id = %s", list1=(level_four_id, ))
                             
                             if level_five_data == ():
-                                data.append((level_one_name, level_two_name, level_three_name, level_four_name, ""))
+                                data.append((u"%s(%s)" % (level_one_name, level_one_code), u"%s(%s)" % (level_two_name, level_two_code), u"%s(%s)" % (level_three_name, level_three_code), u"%s(%s)" % (level_four_name, level_four_code), ""))
                             else:
                                 for level_five in level_five_data:
                                     level_five_name = level_five.get("name")
+                                    level_five_code = level_five.get("code")
                                     level_five_id = level_five.get("id")
 
-                                    data.append((level_one_name, level_two_name, level_three_name, level_four_name, level_five_name))
+                                    data.append((u"%s(%s)" % (level_one_name, level_one_code), u"%s(%s)" % (level_two_name, level_two_code), u"%s(%s)" % (level_three_name, level_three_code), u"%s(%s)" % (level_four_name, level_four_code), u"%s(%s)" % (level_five_name, level_five_code)))
                                               
     return data
 
@@ -60,7 +65,7 @@ def export(data):
         table.write(index, 3, d[3])
 
     # 保存文件
-    file.save('/home/sdu/MyProject/tools/tools/industry/industry.xls')
+    file.save('/home/sdu/MyProject/tools/tools/industry/industry_code.xls')
 
 
 def main():
