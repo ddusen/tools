@@ -12,7 +12,7 @@ from lxml import etree, html
 
 from mysql import query, query_one, save
 
-from tools.crawler.utils.crawler.process import (extract_content_by_xpath,
+from crawler.utils.crawler.process import (extract_content_by_xpath,
                                                  extract_link_by_re,
                                                  extract_pubtime_by_re,
                                                  extract_item_by_re,

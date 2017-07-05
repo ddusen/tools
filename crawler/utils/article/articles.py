@@ -11,7 +11,7 @@ import codecs
 from bs4 import BeautifulSoup
 from get_stitle import gettitles
 from get_spublish_time import getpublish_time
-from tools.crawler.utils.crawler.process import for_time
+from crawler.utils.crawler.process import for_time
 
 def str2datetime(time_str):
     #匹配的time_str，会有空格，导致后面strptime出错

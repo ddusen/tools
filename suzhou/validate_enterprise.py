@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys
-import time
-root_mod = '/home/sdu/MyProject/tools'
-sys.path.append(root_mod)
+sys.path.append("/home/sdu/MyProject/tools")
 
-from mysql import query, query_one, save
-from tools.crawler.utils.crawler.process import (get_response, )
+import time
+
+from crawler.utils.crawler.process import (get_response, )
 
 
 enterprise_name_list = [u'江苏新美星包装机械股份有限公司',

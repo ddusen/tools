@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys
-root_mod = '/home/sdu/MyProject/tools'
-sys.path.append(root_mod)
+sys.path.append("/home/sdu/MyProject/tools")
 
 import time
-from tools.crawler.utils.crawler.process import (get_response, )
+
+from crawler.utils.crawler.process import (get_response, )
 
 
 enterprise_name_list = [u"江苏沙钢集团有限公司", 

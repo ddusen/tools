@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 from lxml import html as html2
 from datetime import datetime as datetime2
-from tools.crawler.utils.date.convert import datetime_to_timestamp
+from crawler.utils.date.convert import datetime_to_timestamp
 
 
 def extract_link_by_xpath(tree, xpath_link, current_url=''):
