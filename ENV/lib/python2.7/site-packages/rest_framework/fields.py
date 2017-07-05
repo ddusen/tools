@@ -28,11 +28,13 @@ from django.utils.encoding import is_protected_type, smart_text
 from django.utils.formats import localize_input, sanitize_separators
 from django.utils.functional import cached_property
 from django.utils.ipv6 import clean_ipv6_address
+from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import ISO_8601
 from rest_framework.compat import (
-    get_remote_field, unicode_repr, unicode_to_repr, value_from_object
+    InvalidTimeError, get_remote_field, unicode_repr, unicode_to_repr,
+    value_from_object
 )
 from rest_framework.exceptions import ErrorDetail, ValidationError
 from rest_framework.settings import api_settings
@@ -149,7 +151,7 @@ def to_choices_dict(choices):
     # choices = [('Category', ((1, 'First'), (2, 'Second'))), (3, 'Third')]
     ret = OrderedDict()
     for choice in choices:
-        if (not isinstance(choice, (list, tuple))):
+        if not isinstance(choice, (list, tuple)):
             # single choice
             ret[choice] = choice
         else:
@@ -442,7 +444,9 @@ class Field(object):
         try:
             return get_attribute(instance, self.source_attrs)
         except (KeyError, AttributeError) as exc:
-            if not self.required and self.default is empty:
+            if self.default is not empty:
+                return self.get_default()
+            if not self.required:
                 raise SkipField()
             msg = (
                 'Got {exc_type} when attempting to get a value for field '
@@ -615,8 +619,8 @@ class Field(object):
         originally created with, rather than copying the complete state.
         """
         # Treat regexes and validators as immutable.
-        # See https://github.com/tomchristie/django-rest-framework/issues/1954
-        # and https://github.com/tomchristie/django-rest-framework/pull/4489
+        # See https://github.com/encode/django-rest-framework/issues/1954
+        # and https://github.com/encode/django-rest-framework/pull/4489
         args = [
             copy.deepcopy(item) if not isinstance(item, REGEX_TYPE) else item
             for item in self._args
@@ -646,6 +650,7 @@ class BooleanField(Field):
     initial = False
     TRUE_VALUES = {
         't', 'T',
+        'y', 'Y', 'yes', 'YES',
         'true', 'True', 'TRUE',
         'on', 'On', 'ON',
         '1', 1,
@@ -653,6 +658,7 @@ class BooleanField(Field):
     }
     FALSE_VALUES = {
         'f', 'F',
+        'n', 'N', 'no', 'NO',
         'false', 'False', 'FALSE',
         'off', 'Off', 'OFF',
         '0', 0, 0.0,
@@ -1082,6 +1088,7 @@ class DateTimeField(Field):
     default_error_messages = {
         'invalid': _('Datetime has wrong format. Use one of these formats instead: {format}.'),
         'date': _('Expected a datetime but got a date.'),
+        'make_aware': _('Invalid datetime for the timezone "{timezone}".')
     }
     datetime_parser = datetime.datetime.strptime
 
@@ -1102,9 +1109,12 @@ class DateTimeField(Field):
         field_timezone = getattr(self, 'timezone', self.default_timezone())
 
         if (field_timezone is not None) and not timezone.is_aware(value):
-            return timezone.make_aware(value, field_timezone)
+            try:
+                return timezone.make_aware(value, field_timezone)
+            except InvalidTimeError:
+                self.fail('make_aware', timezone=field_timezone)
         elif (field_timezone is None) and timezone.is_aware(value):
-            return timezone.make_naive(value, timezone.UTC())
+            return timezone.make_naive(value, utc)
         return value
 
     def default_timezone(self):
@@ -1445,10 +1455,10 @@ class FileField(Field):
         return data
 
     def to_representation(self, value):
-        use_url = getattr(self, 'use_url', api_settings.UPLOADED_FILES_USE_URL)
-
         if not value:
             return None
+
+        use_url = getattr(self, 'use_url', api_settings.UPLOADED_FILES_USE_URL)
 
         if use_url:
             if not getattr(value, 'url', None):
@@ -1504,12 +1514,16 @@ class ListField(Field):
     initial = []
     default_error_messages = {
         'not_a_list': _('Expected a list of items but got type "{input_type}".'),
-        'empty': _('This list may not be empty.')
+        'empty': _('This list may not be empty.'),
+        'min_length': _('Ensure this field has at least {min_length} elements.'),
+        'max_length': _('Ensure this field has no more than {max_length} elements.')
     }
 
     def __init__(self, *args, **kwargs):
         self.child = kwargs.pop('child', copy.deepcopy(self.child))
         self.allow_empty = kwargs.pop('allow_empty', True)
+        self.max_length = kwargs.pop('max_length', None)
+        self.min_length = kwargs.pop('min_length', None)
 
         assert not inspect.isclass(self.child), '`child` has not been instantiated.'
         assert self.child.source is None, (
@@ -1519,6 +1533,12 @@ class ListField(Field):
 
         super(ListField, self).__init__(*args, **kwargs)
         self.child.bind(field_name='', parent=self)
+        if self.max_length is not None:
+            message = self.error_messages['max_length'].format(max_length=self.max_length)
+            self.validators.append(MaxLengthValidator(self.max_length, message=message))
+        if self.min_length is not None:
+            message = self.error_messages['min_length'].format(min_length=self.min_length)
+            self.validators.append(MinLengthValidator(self.min_length, message=message))
 
     def get_value(self, dictionary):
         if self.field_name not in dictionary:
@@ -1614,7 +1634,7 @@ class JSONField(Field):
     def get_value(self, dictionary):
         if html.is_html_input(dictionary) and self.field_name in dictionary:
             # When HTML form input is used, mark up the input
-            # as being a JSON string, rather than a JSON primative.
+            # as being a JSON string, rather than a JSON primitive.
             class JSONString(six.text_type):
                 def __new__(self, value):
                     ret = six.text_type.__new__(self, value)
@@ -1652,7 +1672,7 @@ class ReadOnlyField(Field):
     A read-only field that simply returns the field value.
 
     If the field is a method with no parameters, the method will be called
-    and it's return value used as the representation.
+    and its return value used as the representation.
 
     For example, the following would call `get_expiry_date()` on the object:
 

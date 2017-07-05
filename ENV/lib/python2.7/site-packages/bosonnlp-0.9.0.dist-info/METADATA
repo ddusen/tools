@@ -1,0 +1,25 @@
+Metadata-Version: 2.0
+Name: bosonnlp
+Version: 0.9.0
+Summary: BosonNLP.com API wrapper.
+Home-page: https://bosonnlp-py.readthedocs.org/
+Author: BosonData
+Author-email: support@bosondata.com.cn
+License: MIT
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Testing
+Requires-Dist: requests (>=2.0.0)
+
+http://bosonnlp-py.readthedocs.org/
+
+

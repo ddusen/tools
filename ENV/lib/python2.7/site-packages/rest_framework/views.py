@@ -9,6 +9,7 @@ from django.db import models
 from django.http import Http404
 from django.http.response import HttpResponseBase
 from django.utils import six
+from django.utils.cache import cc_delim_re, patch_vary_headers
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
@@ -286,6 +287,12 @@ class APIView(View):
             self._negotiator = self.content_negotiation_class()
         return self._negotiator
 
+    def get_exception_handler(self):
+        """
+        Returns the exception handler that this view uses.
+        """
+        return self.settings.EXCEPTION_HANDLER
+
     # API policy implementation methods
 
     def perform_content_negotiation(self, request, force=False):
@@ -408,6 +415,11 @@ class APIView(View):
             response.accepted_media_type = request.accepted_media_type
             response.renderer_context = self.get_renderer_context()
 
+        # Add new vary headers to the response instead of overwriting.
+        vary_headers = self.headers.pop('Vary', None)
+        if vary_headers is not None:
+            patch_vary_headers(response, cc_delim_re.split(vary_headers))
+
         for key, value in self.headers.items():
             response[key] = value
 
@@ -428,7 +440,7 @@ class APIView(View):
             else:
                 exc.status_code = status.HTTP_403_FORBIDDEN
 
-        exception_handler = self.settings.EXCEPTION_HANDLER
+        exception_handler = self.get_exception_handler()
 
         context = self.get_exception_handler_context()
         response = exception_handler(exc, context)
