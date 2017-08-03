@@ -21,7 +21,7 @@ class mysql():
         #         charset='utf8')
         # else:
         return MySQLdb.connect(
-                    '27.17.61.26',
+                    '192.168.1.205',
                     'shendu',
                     'P@55word',
                     'crawler',
