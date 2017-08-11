@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
-root_mod = '/home/sdu/MyProject/tools'
-sys.path.append(root_mod)
+sys.path.append('/home/sdu/Project/tools')
 
 import re
 

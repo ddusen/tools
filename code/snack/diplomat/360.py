@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
-root_mod = '/home/sdu/MyProject/tools'
-sys.path.append(root_mod)
+sys.path.append('/home/sdu/Project/tools')
 
 import re
 

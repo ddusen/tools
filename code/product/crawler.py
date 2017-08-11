@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
-root_mod = '/home/sdu/MyProject/tools'
-sys.path.append(root_mod)
+sys.path.append('/home/sdu/Project/tools')
 
 import re
 
@@ -44,16 +43,16 @@ def handle_data(data, level, parent_id):
         i_split_list = i.split('-')
         code = i_split_list[0]
         name = i_split_list[1]
-        if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
-            print "INSERT PRODUCT< %s > SUCCESS!" % name
+        # if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
+        #     print "INSERT PRODUCT< %s > SUCCESS!" % name
 
 
 def handle_data_two(data, level, parent_id):
     for i in data:
         code = i[0]
         name = i[1]
-        if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
-            print "INSERT PRODUCT< %s >, LEVEL< %s > SUCCESS!" % (name, level)
+        # if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
+        #     print "INSERT PRODUCT< %s >, LEVEL< %s > SUCCESS!" % (name, level)
 
 
 def level_one():
