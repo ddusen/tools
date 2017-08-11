@@ -4,7 +4,7 @@ sys.path.append("/home/sdu/MyProject/tools")
 
 import time
 
-from crawler.utils.crawler.process import (get_response, )
+from process import (get_response, )
 
 
 enterprise_name_list = [u'江苏新美星包装机械股份有限公司',

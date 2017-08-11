@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('/home/sdu/Project/tools/code/utils/date')
 import cgi
 import datetime
 import re
@@ -15,7 +17,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 from lxml import html as html2
 from datetime import datetime as datetime2
-from crawler.utils.date.convert import datetime_to_timestamp
+from convert import datetime_to_timestamp
 
 
 def extract_link_by_xpath(tree, xpath_link, current_url=''):

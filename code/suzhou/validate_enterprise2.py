@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
-sys.path.append('/home/sdu/Project/tools')
+sys.path.append('/home/sdu/Project/tools/code/utils/crawler')
 
-from crawler.utils.crawler.process import (get_response, )
+from process import (get_response, )
 
 
 enterprise_name_list = [u'江苏沙钢集团有限公司', 

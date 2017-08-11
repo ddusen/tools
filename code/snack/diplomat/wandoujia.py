@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
-sys.path.append('/home/sdu/Project/tools')
+sys.path.append('/home/sdu/Project/tools/code/utils/crawler')
 
 import re
 
@@ -11,7 +11,7 @@ from lxml import etree, html
 
 from mysql import query, query_one, save
 
-from crawler.utils.crawler.process import (extract_content_by_xpath,
+from process import (extract_content_by_xpath,
                                                  extract_link_by_re,
                                                  extract_pubtime_by_re,
                                                  extract_item_by_re,

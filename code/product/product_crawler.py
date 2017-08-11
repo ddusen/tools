@@ -1,17 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+sys.path.append('/home/sdu/Project/tools/code/utils/crawler')
 import time
-sys.path.append('/home/sdu/Project/tools')
-
 import re
 
 from datetime import datetime
 from lxml import etree, html
 
 from mysql import query, query_one, save
-
-from crawler.utils.crawler.process import (extract_content_by_xpath,
+from process import (extract_content_by_xpath,
                                                  extract_link_by_re,
                                                  extract_pubtime_by_re,
                                                  extract_item_by_re,
@@ -43,16 +41,16 @@ def handle_data(data, level, parent_id):
         i_split_list = i.split('-')
         code = i_split_list[0]
         name = i_split_list[1]
-        # if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
-        #     print "INSERT PRODUCT< %s > SUCCESS!" % name
+        if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
+            print "INSERT PRODUCT< %s > SUCCESS!" % name
 
 
 def handle_data_two(data, level, parent_id):
     for i in data:
         code = i[0]
         name = i[1]
-        # if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
-        #     print "INSERT PRODUCT< %s >, LEVEL< %s > SUCCESS!" % (name, level)
+        if save(sql=u"INSERT INTO `product`(`name`, `level`, `parent_id`, `code`) VALUES(%s, %s, %s, %s)", list1=(name, level, parent_id, code,)):
+            print "INSERT PRODUCT< %s >, LEVEL< %s > SUCCESS!" % (name, level)
 
 
 def level_one():
