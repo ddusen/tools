@@ -29,10 +29,8 @@ def save_database():
 
         time.sleep(1)
 
-
-def main():
+def serialize_json():
     tree = []
-
     level_1 = []
     for one in query(sql=u'SELECT id, name FROM product WHERE level=1'):
         level_1_id = one.get('id')
@@ -68,31 +66,18 @@ def main():
                                 level_7_id = seven.get('id')
                                 level_7_name = seven.get('name')
 
-                            level_6.append({
-                                "text": level_6_name,
-                                'nodes':level_7})
-                        level_5.append({
-                            "text": level_5_name,
-                            'nodes':level_6})
-                    level_4.append({
-                        "text": level_4_name,
-                        'nodes':level_5})
-                level_3.append({
-                    "text": level_3_name,
-                    'nodes':level_4})
-            level_2.append({
-                "text": level_2_name,
-                'nodes':level_3})
-        level_1.append({
-            "text": level_1_name,
-            'nodes':level_2
-            })
-    tree.append({
-        "text": level_1_name,
-        'nodes':level_1
-        })
-    print tree
+                            level_6.append({"text": level_6_name} if not level_7 else {"text": level_6_name,'nodes':level_7})
+                        level_5.append({"text": level_5_name} if not level_6 else {"text": level_5_name,'nodes':level_6})
+                    level_4.append({"text": level_4_name} if not level_5 else {"text": level_4_name,'nodes':level_5})
+                level_3.append({"text": level_3_name} if not level_4 else {"text": level_3_name,'nodes':level_4})
+            level_2.append({"text": level_2_name} if not level_3 else {"text": level_2_name,'nodes':level_3})
+        level_1.append({"text": level_1_name} if not level_2 else {"text": level_1_name,'nodes':level_2})
+    tree.append({"text": level_1_name} if not level_1 else {"text": level_1_name,'nodes':level_1})
 
+    return tree
+    
+def main():
+    print serialize_json()
 
 if __name__ == '__main__':
     main()
