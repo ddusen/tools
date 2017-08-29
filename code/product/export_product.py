@@ -7,8 +7,8 @@ from mysql import query, query_one, save
 
 def handle_data():
     data = []
-    for i in range(1, 96):
-        level_one_data = query(sql=u"SELECT * FROM product WHERE id = %s ORDER BY code DESC", list1=(i, ))
+    for i in range(1, 6):
+        level_one_data = query(sql=u"SELECT * FROM product WHERE id = %s", list1=(i, ))
         for level_one in level_one_data:
             level_one_name = level_one.get("name")
             level_one_id = level_one.get("id")
@@ -46,7 +46,31 @@ def handle_data():
                                         level_five_id = level_five.get("id")
 
                                         data.append((level_one_name, level_two_name, level_three_name, level_four_name, level_five_name))
-                                                  
+
+                                    level_six_data = query(sql=u"SELECT * FROM product WHERE parent_id = %s", list1=(level_five_id, ))
+
+                                    if level_six_data == ():
+                                        data.append((level_one_name, level_two_name, level_three_name, level_four_name, level_five_name, ""))
+                                    else:
+                                        for level_six in level_six_data:
+                                            level_six_name = level_six.get("name")
+                                            level_six_id = level_six.get("id")
+
+                                            data.append((level_one_name, level_two_name, level_three_name, level_four_name, level_five_name, level_six_name))
+                                               
+                                        level_seven_data = query(sql=u"SELECT * FROM product WHERE parent_id = %s", list1=(level_six_id, ))
+
+                                        if level_seven_data == ():
+                                            data.append((level_one_name, level_two_name, level_three_name, level_four_name, level_five_name, level_six_name, ""))
+                                        else:
+                                            for level_seven in level_seven_data:
+                                                level_seven_name = level_seven.get("name")
+                                                level_seven_id = level_seven.get("id")
+
+                                                data.append((level_one_name, level_two_name, level_three_name, level_four_name, level_five_name, level_six_name, level_seven_name))
+                                                          
+
+                                                      
     return data
 
 
@@ -60,9 +84,11 @@ def export(data):
         table.write(index, 2, d[2])
         table.write(index, 3, d[3])
         table.write(index, 4, d[4])
+        table.write(index, 5, d[5])
+        table.write(index, 6, d[6])
 
     # 保存文件
-    file.save('/home/sdu/MyProject/tools/tools/product/product.xls')
+    file.save('/home/sdu/Project/tools/code/product/product.xls')
 
 
 def main():

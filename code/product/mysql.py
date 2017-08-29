@@ -20,10 +20,10 @@ class MySQL():
         #         cursorclass=self.cursorclass)
         # returass=self.cursorclass)
         return MySQLdb.connect(
-            '127.0.0.1',
+            '192.168.1.187',
             'root',
             '123456',
-            'test',
+            'product',
             charset='utf8',
             port=3306,
             cursorclass = self.cursorclass
@@ -61,6 +61,7 @@ def save(sql, list1=()):
         db.commit()
         return result
     except Exception, e:
+        print e
         db.rollback()
         return None
     db.close()
