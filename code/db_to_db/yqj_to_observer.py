@@ -76,8 +76,76 @@ def event_article():
                             database=db_connect_config2.get('database'),
                             port=db_connect_config2.get('port'))
 
-            save(sql=u'UPDATE `base_article` SET `source`=%s, `risk_keyword`=%s, `category_id`=%s, `area_id`=%s',
-                            list1=(event_source, event_keywords, article_category.get('id'), observer_area.get('id'),), 
+            save(sql=u'UPDATE `base_article` SET `source`=%s, `risk_keyword`=%s, `category_id`=%s, `area_id`=%s WHERE id=%s',
+                            list1=(event_source, event_keywords, article_category.get('id'), observer_area.get('id'),article_id,), 
+                            host=db_connect_config2.get('host'),
+                            username=db_connect_config2.get('username'),
+                            password=db_connect_config2.get('password'),
+                            database=db_connect_config2.get('database'),
+                            port=db_connect_config2.get('port'))
+
+
+
+def risk_article():
+    risk_articles_count = query_one(sql=u'SELECT COUNT(*) FROM `risk_articles`', 
+                                    host=db_connect_config.get('host'),
+                                    username=db_connect_config.get('username'),
+                                    password=db_connect_config.get('password'),
+                                    database=db_connect_config.get('database'),
+                                    port=db_connect_config.get('port')).get('COUNT(*)')
+    
+    index = 0
+    while index < risk_articles_count:
+        risk_articles_list = query(sql=u'SELECT * FROM `risk_articles` ORDER BY `id` DESC LIMIT %s, 100', 
+                                list1=(index,),
+                                host=db_connect_config.get('host'),
+                                username=db_connect_config.get('username'),
+                                password=db_connect_config.get('password'),
+                                database=db_connect_config.get('database'),
+                                port=db_connect_config.get('port'))
+        index += 100
+
+        for risk_articles in risk_articles_list:
+            risk_id = risk_articles.get('risk_id')
+            article_id = risk_articles.get('article_id')
+
+            risk = query_one(sql=u'SELECT `area_id`, `source`, `keywords` FROM `topic`', 
+                            host=db_connect_config.get('host'),
+                            username=db_connect_config.get('username'),
+                            password=db_connect_config.get('password'),
+                            database=db_connect_config.get('database'),
+                            port=db_connect_config.get('port'))
+            area_id = risk.get('area_id')
+            risk_source = risk.get('source')
+            risk_keywords = event.get('keywords')
+            risk_score = event.get('score')
+
+            yqj_area =  query_one(sql=u'SELECT `name`, `level` FROM `area` WHERE `id`=%s', 
+                            list1=(area_id,),
+                            host=db_connect_config.get('host'),
+                            username=db_connect_config.get('username'),
+                            password=db_connect_config.get('password'),
+                            database=db_connect_config.get('database'),
+                            port=db_connect_config.get('port'))
+
+            observer_area = query_one(sql=u'SELECT `id` FROM `base_area` WHERE `name`=%s AND `level`=%s', 
+                            list1=(yqj_area.get('name'),yqj_area.get('level'),),
+                            host=db_connect_config2.get('host'),
+                            username=db_connect_config2.get('username'),
+                            password=db_connect_config2.get('password'),
+                            database=db_connect_config2.get('database'),
+                            port=db_connect_config2.get('port'))
+
+            article_category = query_one(sql=u'SELECT `id` FROM `base_articlecategory` WHERE `name`=%s AND `level`=%s', 
+                            list1=(u'风险快讯',1,),
+                            host=db_connect_config2.get('host'),
+                            username=db_connect_config2.get('username'),
+                            password=db_connect_config2.get('password'),
+                            database=db_connect_config2.get('database'),
+                            port=db_connect_config2.get('port'))
+
+            save(sql=u'UPDATE `base_article` SET `source`=%s, `risk_keyword`=%s, `score`=%s, `category_id`=%s, `area_id`=%s WHERE `id`=%s',
+                            list1=(risk_source, risk_keywords, risk_score, article_category.get('id'), observer_area.get('id'), article_id), 
                             host=db_connect_config2.get('host'),
                             username=db_connect_config2.get('username'),
                             password=db_connect_config2.get('password'),
@@ -90,6 +158,7 @@ def event_article():
 
 def main():
     event_article()
+    risk_article()
 
 if __name__ == '__main__':
     main()
