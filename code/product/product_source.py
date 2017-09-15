@@ -5,7 +5,7 @@ from mysql import query, query_one, save
 
 
 def get_html():
-    with open("/home/sdu/Project/tools/code/product/product_source.html", "r") as f:
+    with open("/home/sdu/Project/tools/code/product/product_source3.html", "r") as f:
         return f.read()
 
 
@@ -17,6 +17,7 @@ def save_database():
     for index, item in enumerate(items):
         level = item[0]
         name = item[1]
+        print level, name
         if not query(sql=u'SELECT id FROM product WHERE name=%s and level=%s', list1=(name, level, )):
             if level == u'1':
                 save(sql=u'INSERT INTO `product`(`name`, `level`) VALUES(%s, %s)', list1=(
@@ -77,7 +78,8 @@ def serialize_json():
     return tree
     
 def main():
-    print serialize_json()
+    save_database()
+    # print serialize_json()
 
 if __name__ == '__main__':
     main()
