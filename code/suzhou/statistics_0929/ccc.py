@@ -86,64 +86,64 @@ ccc_dict = {'2d17': u'安全玻璃',
 
 
 def handle_data():
-	data = []
-	for k,v in ccc_dict.items():
-		base_product_id = query_one(sql=u'SELECT `id` FROM `base_product` WHERE `code`=%s', list1=(k, )).get('id')
-		enterprise_number = query_one(sql=u'SELECT COUNT(*) FROM `base_productenterprise` WHERE `product_id` = %s', list1=(base_product_id, )).get('COUNT(*)')
-		ccc_certificate_number = query_one(sql=u'SELECT COUNT(*) FROM `base_chinacompulsorycertification` WHERE `a4` = %s OR `a5` = %s OR `a11` = %s', list1=(v, v, v, )).get('COUNT(*)')
+    data = []
+    for k,v in ccc_dict.items():
+        base_product_id = query_one(sql=u'SELECT `id` FROM `base_product` WHERE `code`=%s', list1=(k, )).get('id')
+        enterprise_number = len(query(sql=u'SELECT DISTINCT `a19` FROM `base_chinacompulsorycertification` WHERE `a4` LIKE %s OR `a5` LIKE %s OR `a11` LIKE %s', list1=("%%%s%%" % v, "%%%s%%" % v, "%%%s%%" % v, )))
+        ccc_certificate_number = query_one(sql=u'SELECT COUNT(*) FROM `base_chinacompulsorycertification` WHERE `a4` LIKE %s OR `a5` LIKE %s OR `a11` LIKE %s', list1=("%%%s%%" % v, "%%%s%%" % v, "%%%s%%" % v, )).get('COUNT(*)')
 
-		base_samplingproduct_id = query_one(sql=u'SELECT `id` FROM `base_samplingproduct` WHERE `code`=%s', list1=(k, )).get('id')
-		base_samplingproductenterprise_queryset = query(sql=u'SELECT `sampling_id` FROM `base_samplingproductenterprise` WHERE `sampling_product_id` = %s', list1=(base_samplingproduct_id, ))
-		base_sampling_ids = map(lambda x : x.values()[0], base_samplingproductenterprise_queryset)
-		base_sampling_ids_str = ', '.join(list(map(lambda x: '%s', base_sampling_ids)))
+        base_samplingproduct_id = query_one(sql=u'SELECT `id` FROM `base_samplingproduct` WHERE `code`=%s', list1=(k, )).get('id')
+        base_samplingproductenterprise_queryset = query(sql=u'SELECT `sampling_id` FROM `base_samplingproductenterprise` WHERE `sampling_product_id` = %s', list1=(base_samplingproduct_id, ))
+        base_sampling_ids = map(lambda x : x.values()[0], base_samplingproductenterprise_queryset)
+        base_sampling_ids_str = ', '.join(list(map(lambda x: '%s', base_sampling_ids)))
 
-		patch_2017 = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2017" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
-		patch_2017_2 = 1 if patch_2017 == 0 else patch_2017
-		enterprise_number_2 = 1 if enterprise_number == 0 else enterprise_number
-		inspect_money = u'空'
-		inspect_proportion = str(( patch_2017_2 / enterprise_number_2 ) * 100) + '%'
+        patch_2017 = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2017" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
+        patch_2017_2 = 1 if patch_2017 == 0 else patch_2017
+        enterprise_number_2 = 1 if enterprise_number == 0 else enterprise_number
+        inspect_money = u'空'
+        inspect_proportion = str(( patch_2017_2 / enterprise_number_2 ) * 100) + '%'
 
-		unit_price = u'空'
+        unit_price = u'空'
 
-		patch_2017_qualified = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2017" AND `check_result` = "合格" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
-		patch_2017_qualified = 1 if patch_2017_qualified == 0 else patch_2017_qualified 
+        patch_2017_qualified = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2017" AND `check_result` = "合格" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
+        patch_2017_qualified = 1 if patch_2017_qualified == 0 else patch_2017_qualified 
 
-		patch_2017_qualified_rate = str(( patch_2017_qualified / patch_2017_2)* 100) + '%'
+        patch_2017_qualified_rate = str(( patch_2017_qualified / patch_2017_2)* 100) + '%'
 
-		patch_2016 = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2016" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
-		patch_2016 = 1 if patch_2016 == 0 else patch_2016
-		patch_2016_qualified = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2016" AND `check_result` = "合格" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
-		patch_2016_qualified = 1 if patch_2016_qualified == 0 else patch_2016_qualified
+        patch_2016 = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2016" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
+        patch_2016 = 1 if patch_2016 == 0 else patch_2016
+        patch_2016_qualified = query_one(sql=u'SELECT COUNT(*) FROM `base_sampling` WHERE `check_year` = "2016" AND `check_result` = "合格" AND `id` IN (%s)', list1=(base_sampling_ids_str, )).get('COUNT(*)')
+        patch_2016_qualified = 1 if patch_2016_qualified == 0 else patch_2016_qualified
 
-		patch_2016_qualified_rate = str((patch_2016_qualified / patch_2016)*100) +'%'
+        patch_2016_qualified_rate = str((patch_2016_qualified / patch_2016)*100) +'%'
 
-		data.append((v, enterprise_number, ccc_certificate_number, patch_2017, inspect_money, inspect_proportion, unit_price, patch_2017_qualified_rate, patch_2016_qualified_rate, ))
+        data.append((v, enterprise_number, ccc_certificate_number, patch_2017, inspect_money, inspect_proportion, unit_price, patch_2017_qualified_rate, patch_2016_qualified_rate, ))
 
-	return data
+    return data
 
 
 def export_excel(data):
     file = xlwt.Workbook()                # 注意这里的Workbook首字母是大写
-    table = file.add_sheet('sheet_1', cell_overwrite_ok=True)
+    table = file.add_sheet(u'强制认证', cell_overwrite_ok=True)
 
     for index, d in enumerate(data):
-	        table.write(index, 0, index + 1)
-	        table.write(index, 1, d[0])
-	        table.write(index, 2, d[1])
-	        table.write(index, 3, d[2])
-	        table.write(index, 4, d[3])
-	        table.write(index, 5, d[4])
-	        table.write(index, 6, d[5])
-	        table.write(index, 7, d[6])
-	        table.write(index, 8, d[7])
-	        table.write(index, 9, d[8])
+            table.write(index, 0, index + 1)
+            table.write(index, 1, d[0])
+            table.write(index, 2, d[1])
+            table.write(index, 3, d[2])
+            table.write(index, 4, d[3])
+            table.write(index, 5, d[4])
+            table.write(index, 6, d[5])
+            table.write(index, 7, d[6])
+            table.write(index, 8, d[7])
+            table.write(index, 9, d[8])
 
     # 保存文件
     file.save('/home/sdu/Project/tools/code/suzhou/statistics_0929/2017监督抽查统计0929.xls')
 
 
 def main():
-	export_excel(handle_data())
+    export_excel(handle_data())
 
 
 if __name__ == '__main__':
