@@ -20,6 +20,7 @@ __re = {
 }
 
 flag = 0
+count = 0
 
 def get_enterprise_name():
     return map(lambda x:x.get('name'), query(sql=u'SELECT `name` FROM `base_enterprise`'))
@@ -32,12 +33,15 @@ def get_response_custom(request_url):
         encoding = __re.get('encoding').findall(html_doc)
         if not encoding:
             return html_doc
+        elif encoding == u'utf-8':
+            return html_doc
         else:
             return get_response(url=request_url, encoding=encoding[0], headers=headers).text
     except Exception as e:
         global flag
         flag += 1
         if flag > 5:
+            flag = 0
             return ''
         print e
         time.sleep(2)
@@ -99,7 +103,9 @@ def handle(enterprise_name):
 def main():
     enterprise_name_list = get_enterprise_name()
     for enterprise_name in enterprise_name_list:
-        print enterprise_name
+        global count
+        count += 1
+        print count, enterprise_name
         try:
             handle(enterprise_name)
         except Exception as e:
