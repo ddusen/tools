@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import os
-# import textract
+import textract
 
 from docx import opendocx, getdocumenttext
 
@@ -24,7 +24,7 @@ def get_file_path():
     return (doc_files, docx_files,)
 
 
-def get_enterprise_name(filepath):
+def get_enterprise_name_by_docx(filepath):
     try:
         document = opendocx(filepath)
     except Exception as e:
@@ -36,18 +36,30 @@ def get_enterprise_name(filepath):
         else:
             continue
 
+def get_enterprise_name_by_doc(filepath):
+    try:
+        return textract.process(filepath).split('申报企业名称：')[1].split('\n')[0]
+    except Exception as e:
+        return None
+
+
 def insert_data(enterprise_name):
     save(sql=u'INSERT INTO `base_enterprise`(`name`) VALUES(%s)', list1=(enterprise_name, ))
 
 
 def main():
-    # filepath = '/mnt/hgfs/Data/work/满意度调查/工业类319个/仙桃工业类4/仙桃市诚宇汽车电器有限公司表四.doc'
-    # print textract.process(filepath)
-    docx_list = get_file_path()[1]
-    for d in docx_list:
-        enterprise_name = get_enterprise_name(d)
+    doc_list = get_file_path()[0]
+    for d in doc_list:
+        enterprise_name = get_enterprise_name_by_doc(d)
         if enterprise_name:
             insert_data(enterprise_name)
+    
+    docx_list = get_file_path()[1]
+    for d in docx_list:
+        enterprise_name = get_enterprise_name_by_docx(d)
+        if enterprise_name:
+            insert_data(enterprise_name)
+
 
 if __name__ == '__main__':
     main()
