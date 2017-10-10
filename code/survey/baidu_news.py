@@ -19,6 +19,8 @@ __re = {
     'encoding': re.compile(r'content="text/html; charset=(.*?)"')
 }
 
+flag = 0
+
 def get_enterprise_name():
     return map(lambda x:x.get('name'), query(sql=u'SELECT `name` FROM `base_enterprise`'))
 
@@ -33,9 +35,13 @@ def get_response_custom(request_url):
         else:
             return get_response(url=request_url, encoding=encoding[0], headers=headers).text
     except Exception as e:
+        global flag
+        flag += 1
         print e
         time.sleep(2)
         get_response_custom(request_url)
+        if flag > 10:
+            return ''
 
 def get_pages(html_doc):
     pages = re.compile(r'<a href="/ns\?word=.*?&pn=(.*?)&cl=2&ct=1&tn=news&rn=20&ie=utf-8&bt=0&et=0"><span')
