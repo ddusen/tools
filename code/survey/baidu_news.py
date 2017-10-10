@@ -65,7 +65,7 @@ def save_data(first_html_doc, enterprise_name):
         pubtime = pubtime.replace(u'日', u'-')
         source = source_pubtime[0]
 
-        save(sql=u'INSERT INTO `base_news`(`title`, `url`, `content`, `pubtime`, `source`, `keyword`) VALUES(%s, %s, %s, %s, %s, %s)', list1=(title, second_crawler_request_url, content, pubtime, source, enterprise_name))
+        save(sql=u'INSERT INTO `base_news`(`title`, `url`, `content`, `pubtime`, `source`, `keyword`, `status`) VALUES(%s, %s, %s, %s, %s, %s, 0)', list1=(title, second_crawler_request_url, content, pubtime, source, enterprise_name))
         
 
 def handle(enterprise_name):
