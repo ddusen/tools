@@ -24,6 +24,7 @@ def get_enterprise_name():
 
 
 def get_response_custom(request_url):
+    request_url = request_url
     try:
         html_doc = get_response(url=request_url, headers=headers).text
         encoding = __re.get('encoding').findall(html_doc)
@@ -34,7 +35,7 @@ def get_response_custom(request_url):
     except Exception as e:
         print e
         time.sleep(2)
-        get_response_custom()
+        get_response_custom(request_url)
 
 def get_pages(html_doc):
     pages = re.compile(r'<a href="/ns\?word=.*?&pn=(.*?)&cl=2&ct=1&tn=news&rn=20&ie=utf-8&bt=0&et=0"><span')
