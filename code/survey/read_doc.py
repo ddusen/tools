@@ -32,13 +32,13 @@ def get_enterprise_name_by_docx(filepath):
     paratextlist = getdocumenttext(document)
     for p in paratextlist:
         if not p.find(u'申报企业'):
-            return p.split(u"：")[1]
+            return p.split(u"：")[1].strip()
         else:
             continue
 
 def get_enterprise_name_by_doc(filepath):
     try:
-        return textract.process(filepath).split('申报企业名称：')[1].split('\n')[0]
+        return textract.process(filepath).split('申报企业名称：')[1].split('\n')[0].strip()
     except Exception as e:
         return None
 

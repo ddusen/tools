@@ -57,13 +57,13 @@ def save_data(first_html_doc, enterprise_name):
         time.sleep(1)
 
         soup = Readability(second_crawler_html_doc, second_crawler_request_url)
-        content = soup.content
-        title = soup.title
+        content = soup.content.strip()
+        title = soup.title.strip()
         pubtime = source_pubtime[1]
         pubtime = pubtime.replace(u'年', u'-')
         pubtime = pubtime.replace(u'月', u'-')
-        pubtime = pubtime.replace(u'日', u'-')
-        source = source_pubtime[0]
+        pubtime = pubtime.replace(u'日', u'-').strip()
+        source = source_pubtime[0].strip()
 
         save(sql=u'INSERT INTO `base_news`(`title`, `url`, `content`, `pubtime`, `source`, `keyword`, `status`) VALUES(%s, %s, %s, %s, %s, %s, 0)', list1=(title, second_crawler_request_url, content, pubtime, source, enterprise_name))
         
