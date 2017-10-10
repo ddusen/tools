@@ -68,32 +68,37 @@ def save_data(first_html_doc, enterprise_name):
         save(sql=u'INSERT INTO `base_news`(`title`, `url`, `content`, `pubtime`, `source`, `keyword`) VALUES(%s, %s, %s, %s, %s, %s)', list1=(title, second_crawler_request_url, content, pubtime, source, enterprise_name))
         
 
-def handle():
-    enterprise_name_list = get_enterprise_name()
-    for enterprise_name in enterprise_name_list:
-        print enterprise_name
-        request_url_set = []
-        request_url = 'http://news.baidu.com/ns?word=%s&pn=0&cl=2&ct=1&tn=news&rn=20&ie=utf-8&bt=0&et=0' % enterprise_name
-        html_doc = get_response_custom(request_url=request_url)
-        time.sleep(1)
-        pages_number = get_pages(html_doc)
-        if not pages_number:
+def handle(enterprise_name):
+    request_url_set = []
+    request_url = 'http://news.baidu.com/ns?word=%s&pn=0&cl=2&ct=1&tn=news&rn=20&ie=utf-8&bt=0&et=0' % enterprise_name
+    html_doc = get_response_custom(request_url=request_url)
+    time.sleep(1)
+    pages_number = get_pages(html_doc)
+    if not pages_number:
+        save_data(html_doc, enterprise_name)
+    else:
+        for page in pages_number:
+            request_url_set.append(request_url)
             save_data(html_doc, enterprise_name)
-        else:
-            for page in pages_number:
-                request_url_set.append(request_url)
-                save_data(html_doc, enterprise_name)
 
-                request_url = 'http://news.baidu.com/ns?word=%s&pn=%s&cl=2&ct=1&tn=news&rn=20&ie=utf-8&bt=0&et=0' % (enterprise_name, page)
-                html_doc = get_response_custom(request_url=request_url)
+            request_url = 'http://news.baidu.com/ns?word=%s&pn=%s&cl=2&ct=1&tn=news&rn=20&ie=utf-8&bt=0&et=0' % (enterprise_name, page)
+            html_doc = get_response_custom(request_url=request_url)
 
-                time.sleep(1)
-                if request_url in request_url_set:
-                    break
+            time.sleep(1)
+            if request_url in request_url_set:
+                break
 
 
 def main():
-    handle()
-
+    enterprise_name_list = get_enterprise_name()
+    for enterprise_name in enterprise_name_list:
+        print enterprise_name
+        try:
+            handle(enterprise_name)
+        except Exception as e:
+            print e
+            time.sleep(3)
+            continue
+            
 if __name__ == '__main__':
     main()
