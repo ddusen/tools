@@ -37,7 +37,7 @@ def get_response_custom(request_url):
     except Exception as e:
         global flag
         flag += 1
-        if flag > 1:
+        if flag > 5:
             return ''
         print e
         time.sleep(2)
