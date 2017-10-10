@@ -37,11 +37,12 @@ def get_response_custom(request_url):
     except Exception as e:
         global flag
         flag += 1
+        if flag > 1:
+            return ''
         print e
         time.sleep(2)
         get_response_custom(request_url)
-        if flag > 10:
-            return ''
+        
 
 def get_pages(html_doc):
     pages = re.compile(r'<a href="/ns\?word=.*?&pn=(.*?)&cl=2&ct=1&tn=news&rn=20&ie=utf-8&bt=0&et=0"><span')
