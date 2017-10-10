@@ -85,10 +85,10 @@ def handle_data():
     data = []
     for k,v in license_dict.items():
         base_product_id = query_one(sql=u'SELECT `id` FROM `base_product` WHERE `code`=%s', list1=(k, )).get('id')
-        enterprise_number = query_one(sql=u'SELECT COUNT(*) FROM `base_productenterprise` WHERE `product_id` = %s', list1=(base_product_id, )).get('COUNT(*)')
 
         base_licenseproduct_id = query_one(sql=u'SELECT `id` FROM `base_licenseproduct` WHERE `code`=%s', list1=(k, )).get('id')
         license_certificate_number = query_one(sql=u'SELECT COUNT(*) FROM `base_licenseproductenterprise` WHERE `license_product_id` = %s', list1=(base_licenseproduct_id, )).get('COUNT(*)')
+        enterprise_number = len(query(sql=u'SELECT DISTINCT `enterprise_id` FROM `base_licenseproductenterprise` WHERE `license_product_id` = %s', list1=(base_licenseproduct_id, )))
         
 
         base_samplingproduct_id = query_one(sql=u'SELECT `id` FROM `base_samplingproduct` WHERE `code`=%s', list1=(k, )).get('id')
@@ -139,7 +139,7 @@ def export_excel(data):
 
     # 保存文件
     file.save(
-        '/home/sdu/Project/tools/code/suzhou/statistics_0929/2017监督抽查统计0929.xls')
+        '/home/sdu/Project/tools/code/suzhou/statistics_0929/2017监督抽查统计1009.xls')
 
 
 def main():
