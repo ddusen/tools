@@ -8,6 +8,7 @@ import math
 
 from openpyxl import load_workbook
 
+
 def get_file_path():
     all_path = os.walk('/mnt/hgfs/Data/work/汇总/')
 
@@ -24,20 +25,24 @@ def get_file_path():
 
     return (xls_files, xlsx_files,)
 
+
 def extract_category(file_path):
     return unicode(file_path.split('/')[-1::1][0].split('.xls')[0], "utf-8")
+
 
 def average(score_list):
     avg = numpy.mean(score_list, axis=0)
     return round(avg, 2)
 
+
 def handle_xls(xls_path):
     workbook = xlrd.open_workbook(xls_path)
-    
-    category = extract_category(xls_path) 
+
+    category = extract_category(xls_path)
 
     # get sheel
-    sheet_names = filter(lambda x: x.find(u'heet') == -1, workbook.sheet_names())
+    sheet_names = filter(lambda x: x.find(
+        u'heet') == -1, workbook.sheet_names())
 
     # accoding to sheel get sheel content
     data = {}
@@ -52,7 +57,8 @@ def handle_xls(xls_path):
         for i in xrange(1, rownum):
             score_list += sheet.row_values(i)
 
-        score_list = filter(lambda x: x != u'' and isinstance(x, float), score_list)
+        score_list = filter(
+            lambda x: x != u'' and isinstance(x, float), score_list)
         data['%s : %s' % (category, sheet_name)] = average(score_list)
 
     return data
@@ -61,18 +67,19 @@ def handle_xls(xls_path):
 def handle_xlsx(xlsx_path):
     wb = load_workbook(filename=xlsx_path)
 
-    category = extract_category(xlsx_path) 
+    category = extract_category(xlsx_path)
 
-    sheet_names = filter(lambda x: x.find(u'heet') == -1, wb.get_sheet_names()) # 获取所有表格(worksheet)的名字
+    sheet_names = filter(lambda x: x.find(u'heet') == -1,
+                         wb.get_sheet_names())  # 获取所有表格(worksheet)的名字
 
     data = {}
     for sheet_name in sheet_names:
-        ws = wb.get_sheet_by_name(sheet_name) # 获取特定的 worksheet
-         
+        ws = wb.get_sheet_by_name(sheet_name)  # 获取特定的 worksheet
+
         # 获取表格所有行和列，两者都是可迭代的
         rows = ws.rows
         columns = ws.columns
-         
+
         # 行迭代
         score_list = []
         for index, row in enumerate(rows):
@@ -82,8 +89,9 @@ def handle_xlsx(xlsx_path):
                     if isinstance(x, long):
                         score_list.append(x)
         data['%s : %s' % (category, sheet_name)] = average(score_list)
-    
-    return data 
+
+    return data
+
 
 def write_xls(data):
     file = xlwt.Workbook()                # 注意这里的Workbook首字母是大写
@@ -91,13 +99,14 @@ def write_xls(data):
 
     flag = 0
     for d in data:
-        for k,v in d.items():
+        for k, v in d.items():
             flag += 1
             table.write(flag, 0, k)
             table.write(flag, 1, v if not math.isnan(v) else u'无评分')
 
     # 保存文件
     file.save('/home/sdu/Project/tools/code/survey/survey_statistics.xls')
+
 
 def main():
     data = []
