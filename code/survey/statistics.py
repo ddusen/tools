@@ -7,10 +7,11 @@ import numpy
 import math
 
 from openpyxl import load_workbook
+from mysql import query, query_one, save
 
 
 def get_file_path():
-    all_path = os.walk('/mnt/hgfs/Data/work/汇总/')
+    all_path = os.walk('/mnt/hgfs/Data/work/survey/汇总/')
 
     xls_files = []
     xlsx_files = []
@@ -29,11 +30,29 @@ def get_file_path():
 def extract_category(file_path):
     return unicode(file_path.split('/')[-1::1][0].split('.xls')[0], "utf-8")
 
+def sheet_name_to_enterprise_name(sheet_name):
+    enterprise_name = sheet_name.split(u"、")[1] if sheet_name.find(u"、") != -1 else sheet_name
+    return enterprise_name
 
-def average(score_list):
+def enterprise_news_score(sheet_name):
+    enterprise_name = sheet_name_to_enterprise_name(sheet_name)
+    positive_count = query_one(sql=u'SELECT COUNT(*) FROM `base_news` WHERE `status` = 1 AND `keyword` LIKE "%%%s%%"', list1=(enterprise_name, ))
+    negative_count = query_one(sql=u'SELECT COUNT(*) FROM `base_news` WHERE `status` = -1 AND `keyword` LIKE "%%%s%%"', list1=(enterprise_name, ))
+    score = 7
+    score += positive_count.get('COUNT(*)')
+    score -= negative_count.get('COUNT(*)')
+
+    if score < 0 :
+        score = 0
+    elif score > 10:
+        score = 10
+
+    return score
+
+def average(score_list, sheet_name):
     avg = numpy.mean(score_list, axis=0)
-    return round(avg, 2)
-
+    avg = round(numpy.mean([enterprise_news_score(sheet_name), avg], axis=0), 2) if not math.isnan(avg) else u'无评分'
+    return avg
 
 def handle_xls(xls_path):
     workbook = xlrd.open_workbook(xls_path)
@@ -59,7 +78,7 @@ def handle_xls(xls_path):
 
         score_list = filter(
             lambda x: x != u'' and isinstance(x, float), score_list)
-        data['%s : %s' % (category, sheet_name)] = average(score_list)
+        data['%s : %s' % (category, sheet_name)] = average(score_list, sheet_name)
 
     return data
 
@@ -88,7 +107,7 @@ def handle_xlsx(xlsx_path):
                     x = col.value
                     if isinstance(x, long):
                         score_list.append(x)
-        data['%s : %s' % (category, sheet_name)] = average(score_list)
+        data['%s : %s' % (category, sheet_name)] = average(score_list, sheet_name)
 
     return data
 
@@ -102,7 +121,7 @@ def write_xls(data):
         for k, v in d.items():
             flag += 1
             table.write(flag, 0, k)
-            table.write(flag, 1, v if not math.isnan(v) else u'无评分')
+            table.write(flag, 1, v)
 
     # 保存文件
     file.save('/home/sdu/Project/tools/code/survey/survey_statistics.xls')
