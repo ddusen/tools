@@ -118,7 +118,7 @@ def is_text_contain(sheet_name):
     return flag
 
 def extract_category(file_path):
-    return unicode(file_path.split('/')[-1::1][0].split('.xls')[0], "utf-8")
+    return unicode("%s-%s" % (file_path.split('/')[-2], file_path.split('/')[-1].split('.xls')[0]), "utf-8")
 
 def sheet_name_to_enterprise_name(sheet_name):
     enterprise_name = sheet_name.split(u"、")[1] if sheet_name.find(u"、") != -1 else sheet_name
@@ -141,7 +141,6 @@ def enterprise_news_score(sheet_name):
 
 def average(score_list, sheet_name):
     avg = numpy.mean(score_list, axis=0)
-    print sheet_name, avg
     avg = round(numpy.mean([enterprise_news_score(sheet_name), avg], axis=0), 2) if not math.isnan(avg) else u'无评分'
     return avg
 
