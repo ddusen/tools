@@ -17,7 +17,7 @@ def handle():
     for enterprise in enterprise_list:
         print enterprise
         enterprise_ids = enterprise.get("GROUP_CONCAT(`id`)").split(",")
-        flag = 1
+        flag = 0
         while flag < len(enterprise_ids):
             delelte(enterprise_ids[flag-1])
             flag += 1
