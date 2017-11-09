@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 
-from mysql import query, query_one, save
+import os, sys
+sys.path.append(os.getcwd())
+
+from utils.db.mysql import query, query_one, save
+from utils.office.excel import write_xlsx
 
 
 def db_config():
@@ -23,8 +27,8 @@ def risk_news():
                         list1=(year, ), 
                         db_config=db_config())
 
-    # monthly news of 1 status
-    status = 1
+    # monthly news of 2 status
+    status = 2
     monthly2 = query(sql='''SELECT COUNT(*) AS count, MONTH(`pubtime`) AS monthly 
                             FROM `risk_news`
                             WHERE `is_delete`=%s AND YEAR(`pubtime`)=%s
@@ -43,7 +47,7 @@ def risk_news():
                         list1=(year, ), 
                         db_config=db_config())
 
-    # weekly news of 1 status
+    # weekly news of 2 status
     weekly2 = query(sql='''SELECT COUNT(*) AS count, 
                                 WEEK(`pubtime`) AS weekly, 
                                 DATE_FORMAT(`pubtime`, '%%Y-%%m-%%d') AS start_at, 
@@ -87,8 +91,18 @@ def origin_inspection():
 
 
 def main():
-    pass
+    filepath = '/home/sdu/Documents/tools/python3/yqj2/2017年抽检数据情况(周统计).xlsx'
 
-    
+    origin_inspection_dict = origin_inspection()
+    write_xlsx('/home/sdu/Documents/tools/python3/yqj2/2017年抽检数据情况(周统计).xlsx', origin_inspection_dict.get('weekly'))
+    write_xlsx('/home/sdu/Documents/tools/python3/yqj2/2017年抽检数据情况(月统计).xlsx', origin_inspection_dict.get('monthly'))
+
+    risk_news_dict = risk_news()
+    write_xlsx('/home/sdu/Documents/tools/python3/yqj2/2017年风险新闻数据情况(周统计).xlsx', risk_news_dict.get('weekly1'))
+    write_xlsx('/home/sdu/Documents/tools/python3/yqj2/2017年风险新闻数据情况(周统计)2.xlsx', risk_news_dict.get('weekly2'))
+    write_xlsx('/home/sdu/Documents/tools/python3/yqj2/2017年风险新闻数据情况(月统计).xlsx', risk_news_dict.get('monthly1'))
+    write_xlsx('/home/sdu/Documents/tools/python3/yqj2/2017年风险新闻数据情况(月统计)2.xlsx', risk_news_dict.get('monthly2'))
+
+
 if __name__ == '__main__':
     main()
