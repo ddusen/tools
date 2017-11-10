@@ -3,3 +3,6 @@ XlsxWriter >=1.0.2
 
 # MySQL
 PyMySQL >= 0.7.11
+
+# Requests
+requests >= 2.18.4
