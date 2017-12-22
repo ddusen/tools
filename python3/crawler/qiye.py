@@ -27,7 +27,7 @@ def main():
                       proxies=proxies[random.randint(0, 3)], 
                       data=params)
 
-    print(r.text)
+    print(r.content)
 
 
 if __name__ == '__main__':
