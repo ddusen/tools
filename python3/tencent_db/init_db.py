@@ -33,8 +33,8 @@ def download_backup(out_url):
     subprocess.call(command, shell=True)
 
 
-def full_restore(file_name):
-    command = 'mysql -uroot -p123456 < /tmp/cdb177112_backup_yqj'
+def full_restore():
+    command = 'mysql -usdu -p123456 yqj -o< /tmp/cdb177112_backup_yqj'
     subprocess.call(command, shell=True)
 
 

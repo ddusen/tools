@@ -13,8 +13,8 @@ config = {
     'SecretId': 'your_secretId',
     'SecretKey': 'your_secretKey',
     'cdbId': 'cdb-ko3zdkzs',
-    'Timestamp': str(int(time.mktime(time.strptime(time.asctime(time.localtime(time.time())), "%a %b %d %H:%M:%S %Y")))),
-    'Nonce': str(random.randint(9999, 100000)),
+    'Timestamp': int(time.mktime(time.strptime(time.asctime(time.localtime(time.time())), "%a %b %d %H:%M:%S %Y"))),
+    'Nonce': random.randint(9999, 100000),
 }
 
 
@@ -43,8 +43,7 @@ def generate_signature():
 
     new_str = split_joint(origin_params)
 
-    hash_sha256 = hmac.new(b'your_secretKey', msg=new_str.encode(
-        'utf-8'), digestmod=hashlib.sha256).digest()
+    hash_sha256 = hmac.new(config['SecretKey'].encode('utf-8'), msg=new_str.encode('utf-8'), digestmod=hashlib.sha256).digest()
 
     signature = base64.b64encode(hash_sha256).decode()
     return signature
@@ -64,7 +63,6 @@ def instances_list():
     }
     r = requests.get(req_url, params=params)
 
-    print(r.url)
     return r.json()
 
 
@@ -80,11 +78,9 @@ def backup_list():
         'cdbInstanceId': config['cdbId'],
         'type': 'coldbackup',
     }
-    print(params)
     r = requests.get(req_url, params=params)
-    print(r.url)
 
-    print(r.json())
+    return r.json()
 
 
 def job_list():
@@ -99,11 +95,10 @@ def job_list():
         'cdbInstanceId': config['cdbId'],
         'type': 'coldbackup',
     }
-    print(params)
     r = requests.get(req_url, params=params)
-    print(r.url)
 
-    print(r.json())
+    return r.json()
+
 
 def main():
     print(instances_list())
