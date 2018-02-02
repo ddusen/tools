@@ -1,0 +1,21 @@
+# Install with: `pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt`
+
+#whell
+wheel >= 0.30.0
+
+# Excel
+XlsxWriter >=1.0.2
+
+# MySQL
+PyMySQL >= 0.7.11
+
+# Requests
+requests >= 2.18.4
+
+# pycurl
+pycurl >= 7.43.0.1
+
+# paramiko
+paramiko >= 2.4.0
+
+qcloudapi-sdk-python >= 2.0.11

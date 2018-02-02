@@ -30,7 +30,7 @@ def read_xls(xls_path):
     return data_row
 
 def insert_data():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/苏州工业产品许可证分类目录.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/苏州工业产品许可证分类目录.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):

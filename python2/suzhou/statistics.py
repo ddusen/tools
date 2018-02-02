@@ -29,7 +29,7 @@ def read_xls(xls_path):
     return data_row
 
 def insert_data():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/2015年全年苏州市市级监督抽查汇总表.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/2015年全年苏州市市级监督抽查汇总表.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):
@@ -41,7 +41,7 @@ def insert_data():
                 print "INSERT <%s, %s, %s> SUCCESSFUL !" % (product, enterprise, is_qualified)
 
 def statistics():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/2016年市抽数据.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/2016年市抽数据.xls'
     data_row = read_xls(xls_path)
 
     two_consecutive_failed_list = []
@@ -85,7 +85,7 @@ def write_xls():
         table.write(index, 2, item)
 
     # 保存文件
-    file.save('/home/sdu/MyProject/tools/tools/suzhou/statistics.xls')
+    file.save('/home/sdu/Documents/tools/python2/suzhou/statistics.xls')
 
 def main():
     # insert_data()

@@ -10,7 +10,7 @@ from mysql import query, query_one, save
 
 def insert_enterprises():
 
-    workbook = xlrd.open_workbook(r'/home/sdu/MyProject/tools/tools/suzhou/data.xls')
+    workbook = xlrd.open_workbook(r'/home/sdu/Documents/tools/python2/suzhou/data.xls')
 
     # get sheel
     sheet1_name = workbook.sheet_names()[0]

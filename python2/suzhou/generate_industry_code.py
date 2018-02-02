@@ -37,7 +37,7 @@ def validate_code():
         validate_code()
 
 def insert_data():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/industry.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/industry.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):

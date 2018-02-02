@@ -32,7 +32,7 @@ def read_xls(xls_path):
 
 
 def insert_data():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/product_code.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/product_code.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):

@@ -139,7 +139,7 @@ def save_samplingproductenterprise(item, check_year):
             return save(sql=u'''INSERT INTO `base_samplingproductenterprise`(`enterprise_id`, `sampling_id`, `sampling_product_id`) VALUES(%s, %s, %s)''', list1=(enterprise_id, sampling_id, sampling_product_id, ))
 
 def insert_data_2015_country():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2015国抽苏州.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/three_year/2015国抽苏州.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):
@@ -147,7 +147,7 @@ def insert_data_2015_country():
             continue
 
 def insert_data_2015_province():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2015省抽苏州.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/three_year/2015省抽苏州.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):
@@ -155,7 +155,7 @@ def insert_data_2015_province():
             continue
 
 def insert_data_2015_city():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2015市抽苏州.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/three_year/2015市抽苏州.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):
@@ -163,7 +163,7 @@ def insert_data_2015_city():
             continue
 
 def insert_data_2016_country():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2016国抽苏州.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/three_year/2016国抽苏州.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):
@@ -171,7 +171,7 @@ def insert_data_2016_country():
             continue
 
 def insert_data_2016_province():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2016省抽苏州.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/three_year/2016省抽苏州.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):
@@ -179,7 +179,7 @@ def insert_data_2016_province():
             continue
 
 def insert_data_2016_city():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/three_year/2016市抽苏州.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/three_year/2016市抽苏州.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):

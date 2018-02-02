@@ -65,7 +65,7 @@ def export(data):
         table.write(index, 3, d[3])
 
     # 保存文件
-    file.save('/home/sdu/MyProject/tools/tools/industry/industry_code.xls')
+    file.save('/home/sdu/Documents/tools/python2/industry/industry_code.xls')
 
 
 def main():

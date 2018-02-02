@@ -29,7 +29,7 @@ def read_xls(xls_path):
     return data_row
 
 def improve_one():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/苏州电线电缆许可证汇总168批.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/苏州电线电缆许可证汇总168批.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):
@@ -39,7 +39,7 @@ def improve_one():
                 print "UPDATE < %s > SUCCESSFUL!" % enterprise
 
 def improve_two():
-    xls_path = r'/home/sdu/MyProject/tools/tools/suzhou/许可证信息.xls'
+    xls_path = r'/home/sdu/Documents/tools/python2/suzhou/许可证信息.xls'
     data_row = read_xls(xls_path)
 
     for index, item in enumerate(data_row):

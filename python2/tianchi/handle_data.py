@@ -41,7 +41,7 @@ def get_time_sequence():
 
 def handle_data(time_sequence_list):
 
-    with open('/home/sdu/MyProject/tools/tools/tianchi/data2.csv', 'wb') as csvfile:
+    with open('/home/sdu/Documents/tools/python2/tianchi/data2.csv', 'wb') as csvfile:
         spamwriter = csv.writer(csvfile)
         index = 0
         for time_date in time_sequence_list:

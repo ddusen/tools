@@ -3,7 +3,7 @@ import csv
 
 def validate_data():
 
-    with open('/home/sdu/MyProject/tools/tools/tianchi/data.csv', 'rb') as csvfile:
+    with open('/home/sdu/Documents/tools/python2/tianchi/data.csv', 'rb') as csvfile:
         spamreader = csv.reader(csvfile)
 
         count = 0
