@@ -1,7 +1,6 @@
-#!/usr/bin/python3
-
 import xlsxwriter
 
+from openpyxl import load_workbook
 
 def write_xlsx(filepath, data):
     #data like this
@@ -28,12 +27,21 @@ def write_xlsx(filepath, data):
     workbook.close()
 
 
-def read_xlsx():
-    pass
+def read_xlsx(filename):
+    wb = load_workbook(filename=filename, read_only=True)
+    ws = wb[wb.sheetnames[0]]
+    for row in ws.rows:
+        for cell in row:
+            pass
+    
+
+
 
 
 if __name__ == '__main__':
-    pass
+    # filename = '/mnt/f/FileRecv/model.xlsx'
+    # filename = '/mnt/f/FileRecv/model2.xlsx'
+    # read_xlsx(filename)
     # data = (
     #     ['Rent', 1000],
     #     ['Gas',   100],
