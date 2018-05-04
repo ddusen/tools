@@ -15,7 +15,7 @@ python xxx.py
 * python3
 ```
 cd python3/
-virtualenv ../ENV
+python3 -m venv ../VENV
 source ../VENV/bin/activate
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
