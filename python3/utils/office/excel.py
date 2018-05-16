@@ -24,7 +24,6 @@ def write_xlsx(filepath, data):
     # Start from the first cell. Rows and columns are zero indexed.
     row = 0
     col = 0    
-
     # Iterate over the data and write it out row by row.
     for r_index, r_data in enumerate(data):
         for c_index, c_data in enumerate(r_data):

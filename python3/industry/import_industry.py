@@ -8,11 +8,11 @@ from utils.db.mysql import query, query_one, save
 
 def db_config():
     return {
-        'host':'gz-cdb-ko3zdkzs.sql.tencentcdb.com',
-        'port':63440,
-        'user':'shendu',
-        'passwd':'P@55word',
-        'db':'observer_admin',
+        'host':'127.0.0.1',
+        'port':3306,
+        'user':'sud',
+        'passwd':'123456',
+        'db':'observer',
     }
 
 
