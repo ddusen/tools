@@ -9,10 +9,10 @@ from utils.db.mysql import query, query_one, save
 
 def db_config():
     return {
-        'host':'192.168.1.205',
-        'port':13306,
-        'user':'shendu',
-        'passwd':'P@55word',
+        'host':'127.0.0.1',
+        'port':3306,
+        'user':'root',
+        'passwd':'123456',
         'db':'yqj2'
     }
 
@@ -54,7 +54,6 @@ def main():
             try:
                 title = sv(i, model['标题'], sheet)
                 url = sv(i, model['URL'], sheet)
-
                 if not url:
                     continue
 
@@ -64,7 +63,7 @@ def main():
                         'status': 0, 
                         'message': '操作失败！Excel %s 行时间格式有误！' % (i + 1, )
                     }
-                    
+                
                 source = sv(i, model['来源'], sheet)
                 publisher = sv(i, model['发布者'], sheet)
                 score = sv(i, model['风险程度'], sheet)
@@ -73,40 +72,35 @@ def main():
                 industry_number = sv(i, model['行业编号'], sheet)
 
                 total += 1
-                if query(sql='SELECT COUNT(*) FROM `risk_news` WHERE `url` = %s', db_config=db_config(), list1=(url, )):
+                if query_one(sql='SELECT COUNT(*) FROM `risk_news` WHERE `url` = %s', db_config=db_config(), list1=(url, ))[0]:
                     dupli += 1
                     continue
 
-                if not query(sql='SELECT COUNT(*) FROM `risk_news_publisher` WHERE `name` = %s', db_config=db_config(), list1=(source, )):
+                if not query_one(sql='SELECT COUNT(*) FROM `risk_news_publisher` WHERE `name` = %s', db_config=db_config(), list1=(source, ))[0]:
                     save(sql='INSERT INTO `risk_news_publisher`(`name`) VALUES(%s, )', db_config=db_config(), list1=(source, ))
 
-                publisher_id = query(sql='SELECT `id` FROM `risk_news_publisher` WHERE `name` = %s', db_config=db_config(), list1=(source, ))
-                
-                
+                publisher_id = query(sql='SELECT `id` FROM `risk_news_publisher` WHERE `name` = %s', db_config=db_config(), list1=(source, ))[0][0]
+                save(sql='INSERT INTO `risk_news`(`title`, `url`, `content`, `pubtime`, `reprinted`, `publisher_id`, `id_delete`, `risk_keyword`, `invalid_keyword`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                    db_config=db_config(),
+                    list1=(title, url, '', pubtime, 0, publisher_id, 2, '', '', ))
 
+                risk_news_id = query(sql='SELECT `id` FROM `risk_news` WHERE `url`= %s', db_config=db_config(), list1=(url, ))[0][0]
+                print(risk_news_id)
+                i = 10 / 0 
 
                 areas = area.split(',')
                 for a_name in areas:
-                    a_queryset = query(sql='SELECT COUNT(*) FROM `area` WHERE `name`=%s', db_config=db_config(), list1=(a_name, ))
+                    a_queryset = query_one(sql='SELECT COUNT(*) FROM `area` WHERE `name`=%s', db_config=db_config(), list1=(a_name, ))[0]
                     if not a_queryset:
                         return {
                             'status': 0, 
                             'message': '操作失败！Excel %s 行，地域 %s 不存在！' % (i + 1, a_name, )
                         }
 
+                    area_ids = query(sql='SELECT `id` FROM `area` WHERE `name`=%s', db_config=db_config(), list1=(a_name, ))[0]
+                    if not query_one(sql='SELECT COUNT(*) FROM `risk_news_area` WHERE `risknews_id` = %s AND `area_id` = %s', db_config=db_config(), list1=(risk_news_id, area_id, )):
+                        save(sql='INSERT INTO `risk_news_area`(`risknews_id`, `area_id`) VALUES(%s, %s)', db_config=db_config(), list1=(risknews_id, area_id, ))                       
 
-                Article(
-                    guid=a_guid,
-                    title=title,
-                    url=url,
-                    pubtime=pubtime,
-                    source=source,
-                    publisher='' if not publisher else publisher,
-                    score=score,
-                    risk_keyword='',
-                    invalid_keyword='',
-                    status=1,
-                ).save()
 
             except Exception as e:
                 return {
