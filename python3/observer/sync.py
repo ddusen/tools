@@ -100,7 +100,13 @@ class Sync:
             write_config('sync', 'yqj2.risk_news', index)
 
 
+def main():
+    try:
+        sync = Sync()
+        sync.yqj()
+        sync.yqj2()
+    except Exception:
+        main()
+
 if __name__ == '__main__':
-    sync = Sync()
-    sync.yqj()
-    sync.yqj2()
+    main()    
