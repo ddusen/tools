@@ -57,9 +57,6 @@ class Sync:
             # record point
             write_config('sync', 'yqj.article', index)
 
-        # yqj.inspection -> observer.inspection
-        # TODO
-
     # sync yqj -> observer
     def yqj2(self):
         # yqj.risk_news -> observer.article
@@ -81,16 +78,15 @@ class Sync:
                 if pubtime > datetime.now():
                     continue
 
-                area_id = r[4]
-                publisher_id = r[5]
-                is_delete = r[6]
+                publisher_id = r[4]
+                is_delete = r[5]
                 status = 1 if is_delete == 2 else -1
 
-                risk_keyword = r[7]
-                invalid_keyword = r[8]
+                risk_keyword = r[6]
+                invalid_keyword = r[7]
 
                 area = yqj2_area(r_id, self.mysql_conf)
-                publisher = yqj2_publisher(r_id, self.mysql_conf)
+                publisher = yqj2_publisher(publisher_id, self.mysql_conf)
                 area_id = observer_area(area, self.mysql_conf)
                 guid = str_to_md5str(url)
 
@@ -104,8 +100,7 @@ class Sync:
             write_config('sync', 'yqj2.risk_news', index)
 
 
-
 if __name__ == '__main__':
     sync = Sync()
     sync.yqj()
-    # sync.yqj2()
+    sync.yqj2()

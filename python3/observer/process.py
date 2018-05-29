@@ -132,15 +132,22 @@ def yqj2_risknews_total(mysql_conf):
 
 def yqj2_risknews(page, length, mysql_conf):
     mysql_conf['db'] = 'yqj2'
-    sql = 'SELECT `id`, `title`, `url`, `pubtime`, `area_id`, `publisher_id`, `is_delete`, `risk_keyword`, `invalid_keyword` FROM `risk_news` ORDER BY `pubtime` DESC LIMIT %s, %s'
+    sql = 'SELECT `id`, `title`, `url`, `pubtime`, publisher_id, `is_delete`, `risk_keyword`, `invalid_keyword` FROM `risk_news` ORDER BY `pubtime` DESC LIMIT %s, %s'
     return query(sql=sql, db_config=mysql_conf, list1=(page, length, ))
 
-def yqj2_area(area_id, mysql_conf):
+def yqj2_area(r_id, mysql_conf):
     mysql_conf['db'] = 'yqj2'
-    sql = 'SELECT `name` FROM `area` WHERE `id` = %s'
-    return query_one(sql=sql, db_config=mysql_conf, list1=(area_id, ))[0]
+    sql = 'SELECT `area_id` FROM `risk_news_area` WHERE `risknews_id` = %s LIMIT 0, 1'
+    area_id = query_one(sql=sql, db_config=mysql_conf, list1=(r_id, ))[0]
+    if area_id:
+        sql = 'SELECT `name` FROM `area` WHERE `id` = %s LIMIT 0, 1'
+        return query_one(sql=sql, db_config=mysql_conf, list1=(area_id, ))[0]
+    return '全国'
 
 def yqj2_publisher(publisher_id, mysql_conf):
     mysql_conf['db'] = 'yqj2'
     sql = 'SELECT `name` FROM `risk_news_publisher` WHERE `id` = %s'
-    return query_one(sql=sql, db_config=mysql_conf, list1=(publisher_id, ))[0]
+    publisher = query_one(sql=sql, db_config=mysql_conf, list1=(publisher_id, ))[0]
+    if not publisher:
+        return ''
+    return publisher
