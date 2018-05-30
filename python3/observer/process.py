@@ -83,11 +83,7 @@ def yqj_categories_to_observer_categories(categories):
         13: '0001',
         15: '0002',
     }
-    temp = []
-    for c in categories:
-        if c_dict.get(c):
-           temp.append(c_dict[c])
-    return temp
+    return [c_dict.get(c[0]) if c_dict.get(c[0]) else '0002' for c in categories]
 
 def observer_area(name, mysql_conf):
     mysql_conf['db'] = 'observer'
