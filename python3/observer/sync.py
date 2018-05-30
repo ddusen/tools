@@ -12,6 +12,7 @@ from process import (read_config, write_config, yqj_article_total,
                     yqj2_publisher, 
                     )
 from utils.string.format import (str_to_md5str, )
+from utils.logs.logger import (Logger, )
 
 
 class Sync:
@@ -20,6 +21,7 @@ class Sync:
         config = read_config()
         self.mysql_conf = config['mysql']
         self.sync_conf = config['sync']
+        self.logger = Logger(ln='observer_sync')
 
     # sync yqj -> observer
     def yqj(self):
@@ -34,10 +36,13 @@ class Sync:
             for article in articles:
                 title = article[0]
                 url = article[1]
+                pubtime = article[2]
+
+                self.logger.record('SYNC <yqj.article> <%s, %s> <%s, %s, %s>.' % (index, total, title, url, pubtime, ))
+
                 if not url:
                     continue
-                
-                pubtime = article[2]
+
                 if pubtime > datetime.now():
                     continue
 
@@ -71,10 +76,13 @@ class Sync:
                 r_id = r[0]
                 title = r[1]
                 url = r[2]
+                pubtime = r[3]
+
+                self.logger.record('SYNC <yqj2.risk_news> <%s, %s> <%s, %s, %s>.' % (index, total, title, url, pubtime, ))
+
                 if not url:
                     continue
 
-                pubtime = r[3]
                 if pubtime > datetime.now():
                     continue
 

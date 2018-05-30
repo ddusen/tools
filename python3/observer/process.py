@@ -4,7 +4,9 @@ sys.path.append(os.getcwd())
 from configparser import (ConfigParser, RawConfigParser, )
 
 from utils.db.mysql import (query, query_one, save, )
+from utils.logs.logger import (Logger, )
 
+logger = Logger(ln='observer_sync')
 
 # 读取 config.ini 配置项
 def read_config():
@@ -103,6 +105,7 @@ def observer_article_save(guid, title, url, pubtime, source, risk_keyword='', in
     if not query_one(sql=sql, db_config=mysql_conf, list1=(guid, ))[0]:
         sql = '''INSERT INTO `base_article`(`guid`, `title`, `url`, `pubtime`, `source`, `score`, `risk_keyword`, `invalid_keyword`, `status`, `publisher`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
         save(sql=sql, db_config=mysql_conf, list1=(guid, title, url, pubtime, source, 0, risk_keyword, invalid_keyword, status, '', ))
+        logger.record('='*50 + 'SAVED' + '='*50)
 
 def observer_article_area_save(guid, area_id, mysql_conf):
     mysql_conf['db'] = 'observer'

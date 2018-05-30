@@ -8,7 +8,7 @@ class Logger:
     def __init__(self, ln='crawler'):
         # init logging
         now = datetime.now()
-        logging.basicConfig(filename='logs/%s_%s_%s_%s.log' % (ln, now.year, now.month, now.day, ), level=logging.INFO)
+        logging.basicConfig(filename='%s_%s_%s_%s.log' % (ln, now.year, now.month, now.day, ), level=logging.INFO)
 
     def record(self, msg, lt='INFO'):
         '''
