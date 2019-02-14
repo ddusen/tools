@@ -109,12 +109,9 @@ class Sync:
 
 
 def main():
-    try:
-        sync = Sync()
-        sync.yqj()
-        sync.yqj2()
-    except Exception:
-        main()
+    sync = Sync()
+    sync.yqj()
+    sync.yqj2()
 
 if __name__ == '__main__':
     main()    
