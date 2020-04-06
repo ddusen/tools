@@ -21,3 +21,6 @@ paramiko >= 2.4.0
 qcloudapi-sdk-python >= 2.0.11
 elasticsearch >= 6.2.0
 baidu-aip >= 2.2.
+
+urllib3==1.25.8
+textblob==0.15.3
