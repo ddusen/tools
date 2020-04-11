@@ -1,6 +1,7 @@
 import os
 import sys
 sys.path.append(os.getcwd())
+import re
 import requests
 
 from datetime import datetime
@@ -19,7 +20,7 @@ def parse(content):
     found_contents = re.compile(r'</div><divclass="st">(.*?)</div></div></div></div><divclass="g">').findall(found_strs)
     found_authers = re.compile(r'<divclass=".*?"><spanclass=".*?">(.*?)</span>').findall(found_strs)
 
-    messages = "Google News: {} \nPast 24 hours, Sorted By date, Top 8. \n{} \n".format(
+    messages = "Google News: {} \nPast 24 hours, Sorted By date, Top 8 \n{} \n".format(
         datetime_to_strtime(datetime.now()),
         '-'*30,
     )
@@ -75,8 +76,8 @@ def oil_news():
     print(resp.status_code)
     messages = parse(resp.text)
     print(messages)
-    # token = '6079179bc90326ec71a3700f7d5c483e5441625c70a878494de966fc420bff47'
-    # send_ding(token, messages)
+    token = '6079179bc90326ec71a3700f7d5c483e5441625c70a878494de966fc420bff47'
+    send_ding(token, messages)
 
 def main():
     oil_news()
