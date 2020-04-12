@@ -1,6 +1,8 @@
+#!/home/sdu/tools/python3/venv/bin/python
 import os
 import sys
 sys.path.append(os.getcwd())
+
 import re
 import requests
 
@@ -41,7 +43,7 @@ def parse(content):
 
     return messages
 
-def oil_news():
+def req(keywords):
     url = 'https://www.google.com/search'
     params = {
         'newwindow': '1',
@@ -52,8 +54,8 @@ def oil_news():
         'tbm': 'nws',
         'sxsrf': 'ALeKk022j1e5aYNFdxcn3HkJ5tRf4MDwPg:1586572623681',
         'ei': 'Ty2RXu-SKYeTr7wP-PCnwA8',
-        'q': '沙特 石油 会议 减产 价格',
-        'oq': '沙特 石油 会议 减产 价格',
+        'q': keywords,
+        'oq': keywords,
         'gs_l': 'psy-ab.12...0.0.0.101829.0.0.0.0.0.0.0.0..0.0....0...1c..64.psy-ab..0.0.0....0.77GY_TWW2es'
     }
     headers = {
@@ -74,13 +76,33 @@ def oil_news():
 
     resp = requests.get(url=url, params=params, headers=headers)
     print(resp.status_code)
-    messages = parse(resp.text)
+    return resp.text
+    
+def oil_news():
+    keywords = '沙特 石油 会议 减产 价格'
+    resp_text = req(keywords)
+    messages = parse(resp_text)
     print(messages)
+
     token = '6079179bc90326ec71a3700f7d5c483e5441625c70a878494de966fc420bff47'
     send_ding(token, messages)
 
+def epidemic_news():
+    keywords = '疫情 趋势 全球'
+    resp_text = req(keywords)
+    messages = parse(resp_text)
+    print(messages)
+
+    token = '92f61d5b2cbc46d66458c95b93e86b264206f54adfdb135aac247f3ef704e7b0'
+    send_ding(token, messages)
+
 def main():
-    oil_news()
+    args = sys.argv[-1]
+    if args == 'oil':
+        oil_news()
+
+    if args == 'epidemic':
+        epidemic_news()
 
 if __name__ == "__main__":
     main()
