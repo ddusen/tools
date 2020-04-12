@@ -96,13 +96,30 @@ def epidemic_news():
     token = '92f61d5b2cbc46d66458c95b93e86b264206f54adfdb135aac247f3ef704e7b0'
     send_ding(token, messages)
 
+def gold_news():
+    keywords = '黄金 避险'
+    resp_text = req(keywords)
+    messages = parse(resp_text)
+    print(messages)
+
+    token = 'ad6d0a953401c8ce734c7079615a0e54f71bd79c3866d495ab1fe336594ed0ba'
+    send_ding(token, messages)
+
 def main():
+    '''
+    0 6-22/1 * * * cd /home/sdu/tools/python3; venv/bin/python google_news/crawler.py oil >> google_news/crawler.log 2>&1 & 
+    20 6-22/2 * * * cd /home/sdu/tools/python3; venv/bin/python google_news/crawler.py gold >> google_news/crawler.log 2>&1 & 
+    40 6-22/3 * * * cd /home/sdu/tools/python3; venv/bin/python google_news/crawler.py epidemic >> google_news/crawler.log 2>&1 & 
+    '''
     args = sys.argv[-1]
     if args == 'oil':
         oil_news()
 
     if args == 'epidemic':
         epidemic_news()
+    
+    if args == 'gold':
+        gold_news()
 
 if __name__ == "__main__":
     main()
