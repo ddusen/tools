@@ -22,7 +22,7 @@ def parse(content):
     found_contents = re.compile(r'</div><divclass="st">(.*?)</div></div></div></div><divclass="g">').findall(found_strs)
     found_authers = re.compile(r'<divclass=".*?"><spanclass=".*?">(.*?)</span>').findall(found_strs)
 
-    messages = "Google News: {} \nPast 24 hours, Sorted By date, Top 10 \n{} \n".format(
+    messages = "Google News: {} \nPast 24 hours, Sorted By date, Top 5 \n{} \n".format(
         datetime_to_strtime(datetime.now()),
         '-'*30,
     )
@@ -38,7 +38,7 @@ def parse(content):
             '-'*30,
         )
         count += 1
-        if count > 8 :
+        if count > 5 :
             break
 
     return messages
