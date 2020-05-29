@@ -40,7 +40,7 @@ def req(keywords):
         'sec-fetch-user': '?1', 
         'referer': 'https://www.google.com/', 
         'accept-language': 'zh-CN,zh;q=0.9', 
-        'cookie': 'CGIC=EhQxQzVHQ0VBX2VuX184NzhfXzg3OCJ8dGV4dC9odG1sLGFwcGxpY2F0aW9uL3hodG1sK3htbCxhcHBsaWNhdGlvbi94bWw7cT0wLjksaW1hZ2Uvd2VicCxpbWFnZS9hcG5nLCovKjtxPTAuOCxhcHBsaWNhdGlvbi9zaWduZWQtZXhjaGFuZ2U7dj1iMztxPTAuOQ; HSID=A-xCmu7jyU-SBRKrb; SSID=AiXdn0iE7s9ei3P_Y; APISID=WCEu2H_do8vcMoqf/ACRK4P-ugQ8jhuuZy; SAPISID=YamU6o-ltj89kvTX/AJsTBA7IVt68kFLC9; __Secure-3PAPISID=YamU6o-ltj89kvTX/AJsTBA7IVt68kFLC9; __Secure-HSID=A-xCmu7jyU-SBRKrb; __Secure-SSID=AiXdn0iE7s9ei3P_Y; __Secure-APISID=WCEu2H_do8vcMoqf/ACRK4P-ugQ8jhuuZy; ANID=AHWqTUlQ_rEko78Sv_o8fDHrT1_h84Em9FBXyNx8mtXdwaUpTFxO8r9S3xCXv09B; SEARCH_SAMESITE=CgQIoI8B; SID=uwczmGRSKwUP9BDVsaglhJbQxBLN5HbfwiKAM6LlZwOjjJNRziyctXd1HOxeai7gZJECSA.; __Secure-3PSID=uwczmGRSKwUP9BDVsaglhJbQxBLN5HbfwiKAM6LlZwOjjJNRojByC2eVaq40Hd5z3_IS8A.; NID=202=POEcoY2ezDWlgMXpQ6-U1UwzKXOmrw29iSVlg0moQpW-HLKuJRLLBVqSTV_xRErn-9lHj7Xy1AyIVqrmRevOTjpwEO3C3iOrI8n3ovMMTnmcvZ96U9GHaLx_zFOGlc0Z7NdGTVzSqMOI1-TJax1xoKsFlMNwpGoyzfTVEI4ODGiwR5A6AQcT_7cyTtALR61vjAnhpLXWbzYkNnxLCWvlSoLoNScoVc7QxKP4WPbTNtVMWAWAaxtBavov9XBnMI-B4iPmbA; DV=Q1EpEx0ytCJK4B5gABCykxFV_49xFlf4WvFgpuJ_GgUAABAgbgrVr3R9dwEAAFTcWbHAZMzfZwAAAA; 1P_JAR=2020-04-11-02; SIDCC=AJi4QfGcpjKwO5_Dc8ZXmTlLh7H7oPWuh_YvhxAESSby6Rfie3gLTnAvha3MI1opy2n9uMN2cQ'
+        'cookie': 'ANID=AHWqTUkYfaABtlgXyY-P6eQM1awbRA0B1gzkotUVknun7GbjZixFm6LZoEKk79Zi; HSID=AFnAbf-RtCr4W1Lxk; SSID=AC7OOzDfPFXLB-izR; APISID=YErsp46CuFs3k55a/AKPPoTJCUH8CjHlgY; SAPISID=KuJL-2sZG8HQn2ey/AdtPt-erke5-8Nc5i; __Secure-HSID=AFnAbf-RtCr4W1Lxk; __Secure-SSID=AC7OOzDfPFXLB-izR; __Secure-APISID=YErsp46CuFs3k55a/AKPPoTJCUH8CjHlgY; __Secure-3PAPISID=KuJL-2sZG8HQn2ey/AdtPt-erke5-8Nc5i; CONSENT=YES+JP.zh-CN+20180610-19-0; SID=xQemJ_QaGxTq-2bvOG-v-mYeC62QMiDgFQPaCZFlMjG7hZ-xnHqGBSdHvoD-P9l2Y9Hedw.; __Secure-3PSID=xQemJ_QaGxTq-2bvOG-v-mYeC62QMiDgFQPaCZFlMjG7hZ-xyqPquCvhk1vsVihDnHH_vQ.; SEARCH_SAMESITE=CgQI648B; NID=204=pgEzL6BmENqLEaFKMwKPTZ7rkEciX0M_IAxFciiFacE8Paaf3zkFRi0o_OYfbdzdRFA9wptMXadu1TC-y77vc2Q-RYzVzoXjEiHNTgFPrGoRYw94cwoJmahAlpot03JO32zvYtEDrambBciUFyLnK8O96IWQx9KtxwG1Ww7yeGN5JRJJEKiPJW6D3KTencyhnFAdK1Js29JX6klduhudC24wMMjhWu7o-C7-; 1P_JAR=2020-05-29-11; SIDCC=AJi4QfESmew_46yp-VOIbwfndHPSUG8PCfpqZBrZpC4glFYQE8IXRdfLZnCgRTk2KW8N4rotFO4'
     }
 
     resp = requests.get(url=url, params=params, headers=headers)
@@ -124,3 +124,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
