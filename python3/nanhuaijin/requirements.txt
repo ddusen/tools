@@ -1,0 +1,7 @@
+# Upgrade pip: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+# Install with: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+
+EbookLib==0.17.1
+lxml==4.9.0
+six==1.16.0
+stagger==1.0.0
