@@ -10,7 +10,7 @@ xlwt == 1.2.0
 xlutils == 2.0.0
 
 # openpyxl
-openpyxl == 2.4.1
+openpyxl == 2.4.2
 
 # Support libs
 bosonnlp >= 0.7.0
